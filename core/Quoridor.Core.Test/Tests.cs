@@ -1,12 +1,9 @@
 using NUnit.Framework;
 
-using Quoridor.Core;
-
 namespace Quoridor.Core.Test
 {
     public class Tests
     {
-
         private GameEngine gameEngine;
 
         [SetUp]
