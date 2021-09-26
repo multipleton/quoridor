@@ -2,14 +2,17 @@
 {
     class Player
     {
+        private readonly short id;
         private readonly Point position;
         private short wallsCount;
 
+        public short Id => id;
         public Point Position => position;
         public short WallsCount => wallsCount;
 
-        public Player(Point position, short wallsCount)
+        public Player(short id, Point position, short wallsCount)
         {
+            this.id = id;
             this.position = position;
             this.wallsCount = wallsCount;
         }
