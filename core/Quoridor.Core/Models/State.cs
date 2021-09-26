@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Quoridor.Core.Exceptions;
 
-namespace Quoridor.Core
+namespace Quoridor.Core.Models
 {
     class State
     {
@@ -26,7 +26,7 @@ namespace Quoridor.Core
         {
             if (playersCount != 2 || playersCount != 4)
             {
-                throw new Exception("Can be 2 or 4 player"); // TODO: maybe move message to another place
+                throw new InvalidPlayersCountException(playersCount);
             }
             this.playersCount = playersCount;
             players = new List<Player>(playersCount);
@@ -37,7 +37,7 @@ namespace Quoridor.Core
         {
             if (players.Count == playersCount)
             {
-                throw new Exception("Passed more players than required"); // TODO: maybe move message to another place
+                throw new PlayerLimitReachedException(playersCount);
             }
             int index = players.Count;
             short id = (short)(index + 1);
@@ -52,7 +52,7 @@ namespace Quoridor.Core
             Player result = players.Find(player => player.Id == id);
             if (result == null)
             {
-                throw new Exception("No such player"); // TODO: maybe move message to another place
+                throw new PlayerNotFoundException(id);
             }
             return result;
         }

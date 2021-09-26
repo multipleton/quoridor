@@ -1,4 +1,4 @@
-﻿namespace Quoridor.Core
+﻿namespace Quoridor.Core.Models
 {
     class Point
     {

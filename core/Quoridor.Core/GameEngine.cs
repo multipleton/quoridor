@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Quoridor.Core
+﻿namespace Quoridor.Core
 {
     public class GameEngine
     {
