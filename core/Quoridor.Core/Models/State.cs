@@ -22,7 +22,7 @@ namespace Quoridor.Core.Models
         public Player[] Players => players.ToArray();
         public Wall[] Walls => walls.ToArray();
 
-        internal State(short playersCount)
+        public State(short playersCount)
         {
             if (playersCount != 2 || playersCount != 4)
             {
@@ -33,7 +33,7 @@ namespace Quoridor.Core.Models
             walls = new List<Wall>(TOTAL_WALLS);
         }
 
-        internal void AddPlayer()
+        public void AddPlayer()
         {
             if (players.Count == playersCount)
             {
@@ -47,7 +47,7 @@ namespace Quoridor.Core.Models
             players.Add(player);
         }
 
-        internal Player GetPlayer(short id)
+        public Player GetPlayer(short id)
         {
             Player result = players.Find(player => player.Id == id);
             if (result == null)
@@ -57,7 +57,7 @@ namespace Quoridor.Core.Models
             return result;
         }
 
-        internal void AddWall(Point[] start, Point[] end)
+        public void AddWall(Point[] start, Point[] end)
         {
             Wall wall = new Wall(start, end);
             walls.Add(wall);
