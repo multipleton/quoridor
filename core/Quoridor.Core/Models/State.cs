@@ -3,7 +3,7 @@ using Quoridor.Core.Exceptions;
 
 namespace Quoridor.Core.Models
 {
-    class State
+    public class State
     {
         private const short TOTAL_WALLS = 20;
         private readonly Point[] PLAYER_STARTUP_POSITIONS =

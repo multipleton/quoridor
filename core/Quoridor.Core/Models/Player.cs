@@ -1,6 +1,6 @@
 ﻿namespace Quoridor.Core.Models
 {
-    class Player
+    public class Player
     {
         private readonly short id;
         private readonly Point position;

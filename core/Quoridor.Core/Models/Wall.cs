@@ -1,6 +1,6 @@
 ﻿namespace Quoridor.Core.Models
 {
-    class Wall
+    public class Wall
     {
         private readonly Point[] start;
         private readonly Point[] end;

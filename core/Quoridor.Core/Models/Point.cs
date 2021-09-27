@@ -1,6 +1,6 @@
 ﻿namespace Quoridor.Core.Models
 {
-    class Point
+    public class Point
     {
         private short x;
         private short y;
