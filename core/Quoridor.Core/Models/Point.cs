@@ -8,7 +8,7 @@
         public short X { get => x; set => x = value; }
         public short Y { get => y; set => y = value; }
 
-        public Point(short x, short y)
+        internal Point(short x, short y)
         {
             X = x;
             Y = y;

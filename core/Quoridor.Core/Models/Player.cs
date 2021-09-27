@@ -10,20 +10,20 @@
         public Point Position => position;
         public short WallsCount => wallsCount;
 
-        public Player(short id, Point position, short wallsCount)
+        internal Player(short id, Point position, short wallsCount)
         {
             this.id = id;
             this.position = position;
             this.wallsCount = wallsCount;
         }
 
-        public void Move(short x, short y)
+        internal void Move(short x, short y)
         {
             Position.X = x;
             Position.Y = y;
         }
 
-        public bool ReduceWallsCount()
+        internal bool ReduceWallsCount()
         {
             if (wallsCount > 0)
             {
