@@ -8,7 +8,7 @@
         public Point[] Start => start;
         public Point[] End => end;
 
-        internal Wall(Point[] start, Point[] end)
+        public Wall(Point[] start, Point[] end)
         {
             this.start = start;
             this.end = end;
