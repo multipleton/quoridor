@@ -5,10 +5,8 @@ namespace Quoridor.Core.Test
 {
     public class PointTests
     {
-        private GameEngine gameEngine;
-
         [Test]
-        public void Constructor_Not_Null_Test() // TODO: should be removed
+        public void Constructor_Not_Null_Test()
         {
             Point point = new Point(5, 4);
             Assert.NotNull(point);
