@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Quoridor.Core.Models;
+using System;
 
 namespace Quoridor.Core.Test
 {
@@ -16,8 +17,7 @@ namespace Quoridor.Core.Test
         [Test]
         public void Constructor_Null_Arguments_Test()
         {
-            Wall wall = new Wall(null, null);
-            Assert.NotNull(wall);
+            Assert.Throws<ArgumentNullException>(() => new Wall(null, null));
         }
         [Test]
         public void Getter_Test()
