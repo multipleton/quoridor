@@ -2,7 +2,7 @@
 
 namespace Quoridor.Core.Exceptions
 {
-    class InvalidPlayersCountException : ArgumentException
+    public class InvalidPlayersCountException : ArgumentException
     {
         private const string MESSAGE = "Invalid players count! Must be 2 or 4, but provided: ";
 
