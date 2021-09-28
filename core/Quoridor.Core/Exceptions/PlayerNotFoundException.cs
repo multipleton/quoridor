@@ -2,7 +2,7 @@
 
 namespace Quoridor.Core.Exceptions
 {
-    class PlayerNotFoundException : NullReferenceException
+    public class PlayerNotFoundException : NullReferenceException
     {
         private const string MESSAGE = "Cannot find player with such id: ";
 
