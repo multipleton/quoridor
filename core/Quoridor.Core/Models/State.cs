@@ -24,7 +24,7 @@ namespace Quoridor.Core.Models
 
         public State(short playersCount)
         {
-            if (playersCount != 2 || playersCount != 4)
+            if (playersCount != 2 && playersCount != 4)
             {
                 throw new InvalidPlayersCountException(playersCount);
             }
