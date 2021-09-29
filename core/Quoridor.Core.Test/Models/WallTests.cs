@@ -14,6 +14,7 @@ namespace Quoridor.Core.Test
             Wall wall = new Wall(start, end);
             Assert.NotNull(wall);
         }
+
         [Test]
         public void Getter_Test()
         {
