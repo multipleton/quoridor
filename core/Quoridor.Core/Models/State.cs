@@ -59,6 +59,10 @@ namespace Quoridor.Core.Models
 
         public void AddWall(Point[] start, Point[] end)
         {
+            if (walls.Count == TOTAL_WALLS)
+            {
+                throw new WallLimitReachedException(TOTAL_WALLS);
+            }
             Wall wall = new Wall(start, end);
             walls.Add(wall);
         }
