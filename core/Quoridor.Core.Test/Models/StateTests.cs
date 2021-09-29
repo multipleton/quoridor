@@ -9,12 +9,11 @@ namespace Quoridor.Core.Test
         [Test]
         public void Constructor_Test()
         {
-            State state2 = new State(2);
-            Assert.NotNull(state2);
-            State state4 = new State(4);
-            Assert.NotNull(state4);
+            Assert.DoesNotThrow(() => new State(2));
+            Assert.DoesNotThrow(() => new State(4));
             Assert.Throws<InvalidPlayersCountException>(() => new State(5));
         }
+
         [Test]
         public void Getter_AddWall_Test()
         {
@@ -34,6 +33,7 @@ namespace Quoridor.Core.Test
             Assert.AreEqual(state2.Walls[0].End[1].X, 2);
             Assert.AreEqual(state2.Walls[0].End[1].Y, 2);
         }
+
         [Test]
         public void AddPlayer_Test()
         {
@@ -55,6 +55,7 @@ namespace Quoridor.Core.Test
             Assert.AreEqual(state4.Players.Length, 4);
             Assert.Throws<PlayerLimitReachedException>(() => state4.AddPlayer());
         }
+
         [Test]
         public void GetPlayer_Test()
         {
@@ -63,6 +64,7 @@ namespace Quoridor.Core.Test
             Assert.AreEqual(state2.GetPlayer(1).Id, 1);
             Assert.Throws<PlayerNotFoundException>(() => state2.GetPlayer(0));
         }
+
         [Test]
         public void AddWall()
         {

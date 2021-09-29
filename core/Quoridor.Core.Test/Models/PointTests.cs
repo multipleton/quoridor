@@ -8,9 +8,9 @@ namespace Quoridor.Core.Test
         [Test]
         public void Constructor_Not_Null_Test()
         {
-            Point point = new Point(5, 4);
-            Assert.NotNull(point);
+            Assert.DoesNotThrow(() => new Point(5, 4));
         }
+
         [Test]
         public void Getter_Test()
         {
@@ -18,6 +18,7 @@ namespace Quoridor.Core.Test
             Assert.AreEqual(point.X, 5);
             Assert.AreEqual(point.Y, 4);
         }
+
         [Test]
         public void Settter_Test()
         {

@@ -11,8 +11,7 @@ namespace Quoridor.Core.Test
         {
             Point[] start = { new Point(1, 1), new Point(1, 2) };
             Point[] end = { new Point(2, 1), new Point(2, 2) };
-            Wall wall = new Wall(start, end);
-            Assert.NotNull(wall);
+            Assert.DoesNotThrow(() => new Wall(start, end));
         }
 
         [Test]

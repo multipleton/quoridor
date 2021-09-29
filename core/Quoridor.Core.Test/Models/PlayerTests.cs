@@ -8,9 +8,9 @@ namespace Quoridor.Core.Test
         [Test]
         public void Constructor_Not_Null_Test()
         {
-            Player player = new Player(0, new Point(5, 0), 10);
-            Assert.NotNull(player);
+            Assert.DoesNotThrow(() => new Player(0, new Point(5, 0), 10));
         }
+
         [Test]
         public void Getter_Test()
         {
@@ -20,6 +20,7 @@ namespace Quoridor.Core.Test
             Assert.AreEqual(player.Position.Y, 0);
             Assert.AreEqual(player.WallsCount, 10);
         }
+
         [Test]
         public void Move_Test()
         {
@@ -29,6 +30,7 @@ namespace Quoridor.Core.Test
             player.Move(6, 1);
             Assert.AreEqual(player.Position.X, 6);
         }
+
         [Test]
         public void ReduceWallCount_Test()
         {
