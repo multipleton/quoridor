@@ -43,7 +43,6 @@ namespace Quoridor.Core.Test
             Assert.AreEqual(state2.Players.Length, 1);
             state2.AddPlayer();
             Assert.Throws<PlayerLimitReachedException>(() => state2.AddPlayer());
-
             State state4 = new State(4);
             Assert.AreEqual(state4.Players.Length, 0);
             state4.AddPlayer();
