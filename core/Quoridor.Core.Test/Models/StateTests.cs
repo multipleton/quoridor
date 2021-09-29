@@ -64,17 +64,17 @@ namespace Quoridor.Core.Test
             Assert.AreEqual(state2.GetPlayer(1).Id, 1);
             Assert.Throws<PlayerNotFoundException>(() => state2.GetPlayer(0));
         }
-        /*[Test]
+        [Test]
         public void AddWall()
         {
             State state2 = new State(2);
             Point[] start = { new Point(1, 1), new Point(1, 2) };
             Point[] end = { new Point(2, 1), new Point(2, 2) };
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 20; i++)
             {
                 state2.AddWall(start, end);
             }
-            Assert.AreEqual(state2.Walls.Length, 25);
-        }*/
+            Assert.Throws<WallLimitReachedException>(() => state2.AddWall(start, end));
+        }
     }
 }
