@@ -33,7 +33,7 @@ namespace Quoridor.Core.Models
             walls = new List<Wall>(TOTAL_WALLS);
         }
 
-        public void AddPlayer()
+        public int AddPlayer()
         {
             if (players.Count == playersCount)
             {
@@ -45,6 +45,7 @@ namespace Quoridor.Core.Models
             short wallsCount = (short)(TOTAL_WALLS / playersCount);
             Player player = new Player(id, position, wallsCount);
             players.Add(player);
+            return id;
         }
 
         public Player GetPlayer(short id)

@@ -25,9 +25,9 @@ namespace Quoridor.Core.Test
         public void Move_Test()
         {
             Player player = new Player(0, new Point(5, 0), 10);
-            player.Move(5, 1);
+            player.Move(new Point(5, 1));
             Assert.AreEqual(player.Position.Y, 1);
-            player.Move(6, 1);
+            player.Move(new Point(6, 1));
             Assert.AreEqual(player.Position.X, 6);
         }
 

@@ -17,10 +17,10 @@
             this.wallsCount = wallsCount;
         }
 
-        public void Move(short x, short y)
+        public void Move(Point point)
         {
-            Position.X = x;
-            Position.Y = y;
+            Position.X = point.X;
+            Position.Y = point.Y;
         }
 
         public bool ReduceWallsCount()

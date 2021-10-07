@@ -1,77 +1,116 @@
-﻿using Quoridor.Core.Models;
+﻿using System.Collections.Generic;
+using Quoridor.Core.Models;
 
 namespace Quoridor.Core
 {
     public class GameEngine
     {
-        private string currentPlayer;
-        private State state;
-        private int playersCount;
+        private static GameEngine instance = null;
 
-        public GameEngine(int playersCount)
+        public static GameEngine Instance
         {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameEngine();
+                }
+                return instance;
+            }
+        }
+
+        private GameEngine() { }
+
+        private State state;
+        private List<Connection> connections;
+        private int currentConnectionIndex = 0;
+
+        private Connection CurrentConnection => connections[currentConnectionIndex];
+
+        public void Initialize(int playersCount)
+        {
+            connections = new List<Connection>(playersCount);
             state = new State((short)playersCount);
         }
 
-        public void ConnectPlayer()
+        public void Connect(Connection connection)
         {
-            if (playersCount != 4)
-            {
-                playersCount++;
-            }
-
+            connection.PlayerId = (short)state.AddPlayer();
+            connections.ForEach(entry => entry.OnNewConnection(connection));
+            connections.Add(connection);
+            connection.OnConnected();
         }
 
-        public void StartGame()
+        private void SwitchConnection()
         {
-            if (playersCount == 2 || playersCount == 4)
+            currentConnectionIndex += 1;
+            if (currentConnectionIndex > connections.Count)
             {
-                state = new State((short)playersCount);
-                for (int i = 0; i < playersCount; i++)
-                {
-                    state.AddPlayer();
-                }
+                currentConnectionIndex = 0;
             }
         }
 
-        private void MovePlayer(Point point)
+        public void Start()
         {
-
-        }
-
-        private void PlaceWall(Point[] start, Point[] end)
-        {
-
+            connections.ForEach(entry => entry.OnStart(CurrentConnection));
+            connections.ForEach(entry => entry.OnUpdate(state));
+            CurrentConnection.OnWaitingForMove();
         }
 
         public void MakeMove(Point point)
         {
-            MovePlayer(point);
+            Connection connection = CurrentConnection;
+            Player player = state.GetPlayer(connection.PlayerId);
+            if (true) // TODO: check is valid move
+            {
+                player.Move(point);
+                CheckIsPlayerWin();
+                SwitchConnection();
+                connections.ForEach(entry => entry.OnMove(connection, CurrentConnection));
+                connections.ForEach(entry => entry.OnUpdate(state));
+                CurrentConnection.OnWaitingForMove();
+            }
+            else
+            {
+                connection.OnInvalidMove();
+            }
         }
 
         public void MakeMove(Point[] start, Point[] end)
         {
-            PlaceWall(start, end);
+            Connection connection = CurrentConnection;
+            Player player = state.GetPlayer(connection.PlayerId);
+            if (true && player.ReduceWallsCount()) // TODO: check is valid move
+            {
+                state.AddWall(start, end);
+                SwitchConnection();
+                connections.ForEach(entry => entry.OnMove(connection, CurrentConnection));
+                connections.ForEach(entry => entry.OnUpdate(state));
+                CurrentConnection.OnWaitingForMove();
+            }
+            else
+            {
+                connection.OnInvalidMove();
+            }
         }
 
-        public Point[] GetAvailiblePlayerFields()
+        private void CheckIsPlayerWin()
         {
-            return new Point[] { };
+            // TODO
+            if (true)
+            {
+                connections.ForEach(entry => entry.OnFinish(CurrentConnection));
+            }
         }
 
-        public Point[,] GetAvailibleWallPositions()
+        private Point[] GetAvailablePlayerPositions()
         {
-            return new Point[,] { };
+            return null; // TODO
         }
 
-        public void Reset()
+        private Point[,] GetAvailableWallPositions()
         {
-
-        }
-
-        public void EndGame()
-        {
-
+            return null; // TODO
         }
     }
 }
