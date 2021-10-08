@@ -19,6 +19,8 @@ namespace Quoridor.Core.Models
         private readonly List<Player> players;
         private readonly List<Wall> walls;
 
+        public Point[] PlayerStartupPositions => PLAYER_STARTUP_POSITIONS;
+
         public Player[] Players => players.ToArray();
         public Wall[] Walls => walls.ToArray();
 
