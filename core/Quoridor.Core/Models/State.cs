@@ -8,16 +8,18 @@ namespace Quoridor.Core.Models
         private const short TOTAL_WALLS = 20;
         private readonly Point[] PLAYER_STARTUP_POSITIONS =
         {
-            new Point(5, 0),
-            new Point(5, 9),
-            new Point(0, 5),
-            new Point(9, 5),
+            new Point(4, 0),
+            new Point(4, 8),
+            new Point(0, 4),
+            new Point(8, 4),
         };
 
         private readonly short playersCount;
 
         private readonly List<Player> players;
         private readonly List<Wall> walls;
+
+        public Point[] PlayerStartupPositions => PLAYER_STARTUP_POSITIONS;
 
         public Player[] Players => players.ToArray();
         public Wall[] Walls => walls.ToArray();
@@ -33,7 +35,7 @@ namespace Quoridor.Core.Models
             walls = new List<Wall>(TOTAL_WALLS);
         }
 
-        public void AddPlayer()
+        public int AddPlayer()
         {
             if (players.Count == playersCount)
             {
@@ -45,6 +47,7 @@ namespace Quoridor.Core.Models
             short wallsCount = (short)(TOTAL_WALLS / playersCount);
             Player player = new Player(id, position, wallsCount);
             players.Add(player);
+            return id;
         }
 
         public Player GetPlayer(short id)
