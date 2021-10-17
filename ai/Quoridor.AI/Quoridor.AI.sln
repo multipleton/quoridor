@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quoridor.AI", "Quoridor.AI\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.Core", "..\..\core\Quoridor.Core\Quoridor.Core.csproj", "{8333E92F-2443-42B0-9BCB-9D8FE0FF245A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quoridor.AI.Test", "Quoridor.AI.Test\Quoridor.AI.Test.csproj", "{343C2F59-26B4-4940-97D3-76D9CBDDCCDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8333E92F-2443-42B0-9BCB-9D8FE0FF245A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8333E92F-2443-42B0-9BCB-9D8FE0FF245A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8333E92F-2443-42B0-9BCB-9D8FE0FF245A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{343C2F59-26B4-4940-97D3-76D9CBDDCCDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{343C2F59-26B4-4940-97D3-76D9CBDDCCDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{343C2F59-26B4-4940-97D3-76D9CBDDCCDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{343C2F59-26B4-4940-97D3-76D9CBDDCCDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
