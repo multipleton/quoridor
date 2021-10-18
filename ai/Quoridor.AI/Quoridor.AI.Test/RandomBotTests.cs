@@ -10,6 +10,7 @@ namespace Quoridor.AI.Test
     {
         private Mock<GameEngine> gameEngineMock;
         private Mock<State> stateMock;
+
         private Point position;
         private Player player;
 
@@ -23,7 +24,7 @@ namespace Quoridor.AI.Test
             position = new Point(4, 4);
             player = new Player(0, position, 10);
             randomBot = new RandomBot(gameEngineMock.Object);
-            randomBot.PlayerId = 0;
+            randomBot.PlayerId = player.Id;
             randomBot.OnUpdate(stateMock.Object);
         }
 
@@ -50,6 +51,7 @@ namespace Quoridor.AI.Test
                             if (entry.X == point.X && entry.Y == point.Y)
                             {
                                 isContains = true;
+                                break;
                             }
                         }
                         Assert.IsTrue(isContains);
@@ -69,16 +71,23 @@ namespace Quoridor.AI.Test
                         Assert.IsTrue(end[0].Y + offsetY == end[1].Y);
                     }
                 );
-            stateMock.Setup(i => i.GetPlayer(0)).Returns(player);
+            stateMock.Setup(i => i.GetPlayer(player.Id)).Returns(player);
             randomBot.OnWaitingForMove();
         }
 
         [Test]
         public void TestOnInvalidMove()
         {
-            gameEngineMock.Verify(i => i.MakeMove(It.IsAny<Point>()), Times.Once);
-            stateMock.Setup(i => i.GetPlayer(0)).Returns(player);
+            bool isMethodCalled = false;
+            gameEngineMock
+                .Setup(i => i.MakeMove(It.IsAny<Point>()))
+                .Callback<Point>(_ => isMethodCalled = !isMethodCalled);
+            gameEngineMock
+                .Setup(i => i.MakeMove(It.IsAny<Point[]>(), It.IsAny<Point[]>()))
+                .Callback<Point[], Point[]>((start, end) => isMethodCalled = !isMethodCalled);
+            stateMock.Setup(i => i.GetPlayer(player.Id)).Returns(player);
             randomBot.OnInvalidMove();
+            Assert.IsTrue(isMethodCalled);
         }
     }
 }
