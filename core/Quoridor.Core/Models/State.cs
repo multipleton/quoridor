@@ -50,7 +50,7 @@ namespace Quoridor.Core.Models
             return id;
         }
 
-        public Player GetPlayer(short id)
+        public virtual Player GetPlayer(short id)
         {
             Player result = players.Find(player => player.Id == id);
             if (result == null)

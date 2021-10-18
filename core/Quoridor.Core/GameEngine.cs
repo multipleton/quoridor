@@ -20,7 +20,7 @@ namespace Quoridor.Core
             }
         }
 
-        private GameEngine() { }
+        public GameEngine() { }
 
         private State state;
         private List<Connection> connections;
@@ -54,7 +54,7 @@ namespace Quoridor.Core
             CurrentConnection.OnWaitingForMove();
         }
 
-        public void MakeMove(Point point)
+        public virtual void MakeMove(Point point)
         {
             if (gameFinished) throw new GameFinishedException();
             Connection connection = CurrentConnection;
@@ -80,7 +80,7 @@ namespace Quoridor.Core
             }
         }
 
-        public void MakeMove(Point[] start, Point[] end)
+        public virtual void MakeMove(Point[] start, Point[] end)
         {
             if (gameFinished) throw new GameFinishedException();
             Connection connection = CurrentConnection;
