@@ -10,7 +10,7 @@ namespace Quoridor.Core.Logic
         private static int[] marked;
         private int[,] fieldState;
         
-        private static Dictionary<int, int[]> transformFieldStateToAdjacencyMatrix(int[,] fieldState)
+        private static Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] fieldState)
         {
             Dictionary<int, int[]> result = new Dictionary<int, int[]>();
             for (int i = 0; i < fieldState.GetLength(0); i = i + 2)
@@ -55,13 +55,14 @@ namespace Quoridor.Core.Logic
             {
                 if (current == winCases[i]) return true;
             }
-            for (int i = 0; i < adjacencyGraph[current].Length; ++i)
+            for (int i = 0; i < adjacencyGraph[current].Length; i++)
             {
                 if (DFS(adjacencyGraph[current][i], winCases)) return true;
             }
             return false;
         }
-        private static int[,] addWallsAndPlayersToMatrix(State state)
+
+        private static int[,] AddWallsAndPlayersToMatrix(State state)
         {
             int[,] matrix = new int[17, 17];
             Player[] players = state.Players;
@@ -93,13 +94,13 @@ namespace Quoridor.Core.Logic
                     matrix[x1 * 2 + 2, y1 * 2 + 1] = 9;
                 }
             }
-
             return matrix;
         }
-        public bool hasAvailablePaths(State state)
+
+        public bool HasAvailablePaths(State state)
         {
-            fieldState = addWallsAndPlayersToMatrix(state);
-            adjacencyGraph = transformFieldStateToAdjacencyMatrix(fieldState);
+            fieldState = AddWallsAndPlayersToMatrix(state);
+            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
 
             Player[] players = state.Players;
             int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
