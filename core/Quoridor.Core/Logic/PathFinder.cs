@@ -99,7 +99,6 @@ namespace Quoridor.Core.Logic
         {
             fieldState = AddWallsAndPlayersToMatrix(state);
             adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
-
             Player[] players = state.Players;
             int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
             int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
