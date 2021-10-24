@@ -42,7 +42,6 @@ namespace Quoridor.Core.Logic
             }
             return result;
         }
-
         private static bool DFS(int current, int[] winCases)
         {
             if (marked[current] != 0)
