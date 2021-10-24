@@ -75,7 +75,6 @@ namespace Quoridor.Core.Logic
             for (int i = 0; i < walls.Length; i++)
             {
                 Point[] start = walls[i].Start;
-
                 int x1 = start[0].X;
                 int y1 = start[0].Y;
                 int x2 = start[1].X;
