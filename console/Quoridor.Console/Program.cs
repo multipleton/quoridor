@@ -1,7 +1,7 @@
 ﻿using static System.Console;
-
-using Quoridor.Console.Input;
-using Quoridor.Console.Output;
+using Quoridor.Core;
+using Quoridor.Player;
+using Quoridor.AI;
 
 namespace Quoridor.Console
 {
@@ -9,10 +9,14 @@ namespace Quoridor.Console
     {
         static void Main(string[] args)
         {
-            InputHandler inputHandler = new InputHandler();
-            OutputHandler outputHandler = new OutputHandler();
-            WriteLine(inputHandler.Stub());
-            WriteLine(outputHandler.Stub());
+            GameEngine gameEngine = GameEngine.Instance;
+            gameEngine.Initialize(2);
+            RandomBot randomBot = new RandomBot(gameEngine);
+            PlayerConnection playerConnection = new PlayerConnection(gameEngine);
+            gameEngine.Connect(playerConnection);
+            // gameEngine.Connect(randomBot);
+            gameEngine.Connect(new PlayerConnection(gameEngine));
+            gameEngine.Start();
         }
     }
 }
