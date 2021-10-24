@@ -102,7 +102,6 @@ namespace Quoridor.Core.Logic
             Player[] players = state.Players;
             int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
             int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-
             marked = new int[81];
             int x = players[0].Position.X;
             int y = players[0].Position.Y;
