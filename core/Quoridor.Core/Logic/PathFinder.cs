@@ -107,7 +107,6 @@ namespace Quoridor.Core.Logic
             int x = players[0].Position.X;
             int y = players[0].Position.Y;
             if (!DFS(x * 9 + y, firstWinCases)) return false;
-
             marked = new int[81];
             int x2 = players[1].Position.X;
             int y2 = players[1].Position.Y;
