@@ -1,4 +1,6 @@
-﻿namespace Quoridor.Core.Models
+﻿using Quoridor.Core.Exceptions;
+
+namespace Quoridor.Core.Models
 {
     public abstract class Connection
     {
@@ -6,11 +8,20 @@
         private short playerId;
 
         public string Identifier => identifier;
-        public short PlayerId { get => playerId; set => playerId = value; }
+        public short PlayerId
+        {
+            get => playerId;
+            set
+            {
+                if (playerId != -1) throw new InvalidOSPOperationException("playerId");
+                playerId = value;
+            }
+        }
 
         public Connection(string identifier)
         {
             this.identifier = identifier;
+            playerId = -1;
         }
 
         public abstract void OnConnected();
