@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\Quoridor.Core\Quoridor.Core.csproj" />
+  </ItemGroup>
+
 </Project>

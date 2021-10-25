@@ -118,7 +118,7 @@ namespace Quoridor.Console.Output
             PrintSeparator();
             WriteLine("The game finished!");
             WriteLine("Winner: " + winner);
-            WriteLine("Do you want to restart (y/n)?");
+            WriteLine("Do you want to restart? (y/n)");
         }
 
         private void PrintSeparator()
