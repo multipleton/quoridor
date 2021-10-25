@@ -102,7 +102,7 @@ namespace Quoridor.Core
         private void NextConnection()
         {
             currentConnectionIndex += 1;
-            if (currentConnectionIndex > connections.Count)
+            if (currentConnectionIndex == connections.Count)
             {
                 currentConnectionIndex = 0;
             }
