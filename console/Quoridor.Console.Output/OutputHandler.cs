@@ -149,10 +149,14 @@ namespace Quoridor.Console.Output
             {
                 for (int i = 0; i < wall.Start.Length; i++)
                 {
-                    bool isX = ((wall.Start[i].X + wall.End[i].X) / 2) == ((x - 1) / 2);
-                    bool isY = ((wall.Start[i].Y + wall.End[i].Y) / 2) == ((y - 1) / 2);
-                    if (isX && isY)
+                    
+                    bool vertical = ((ToExtended(wall.Start[i].X) + ToExtended(wall.End[i].X)) / 2) == x;
+                    bool horizontal = ((ToExtended(wall.Start[i].Y) + ToExtended(wall.End[i].Y)) / 2) == y;
+                    bool xEqual = (x == ToExtended(wall.Start[i].X)) && (x == ToExtended(wall.End[i].X));
+                    bool yEqual = (y == ToExtended(wall.Start[i].Y)) && (y == ToExtended(wall.End[i].Y));
+                    if ((vertical && yEqual) || (horizontal && xEqual))
                     {
+                        
                         result = wall;
                         break;
                     }
@@ -163,6 +167,11 @@ namespace Quoridor.Console.Output
                 }
             }
             return result;
+        }
+
+        private int ToExtended(int value)
+        {
+            return value == 0 ? 0 : value * 2 + 1;
         }
     }
 }
