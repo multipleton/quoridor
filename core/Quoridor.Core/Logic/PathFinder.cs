@@ -203,7 +203,6 @@ namespace Quoridor.Core.Logic
             }
             return result;
         }
-
         private static bool DFS(int current, int[] winCases)
         {
             if (marked[current] != 0)
@@ -237,11 +236,9 @@ namespace Quoridor.Core.Logic
             for (int i = 0; i < walls.Length; i++)
             {
                 Point[] start = walls[i].Start;
-
                 int x1 = start[0].X;
                 int y1 = start[0].Y;
                 int x2 = start[1].X;
-
                 if (x1 == x2)
                 {
                     matrix[x1 * 2 + 1, y1 * 2] = 8;
