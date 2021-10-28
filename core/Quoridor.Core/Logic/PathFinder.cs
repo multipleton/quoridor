@@ -9,7 +9,168 @@ namespace Quoridor.Core.Logic
         private static Dictionary<int, int[]> adjacencyGraph;
         private static int[] marked;
         private int[,] fieldState;
-        
+
+        public bool HasAvailablePaths(State state)
+        {
+            fieldState = AddWallsAndPlayersToMatrix(state);
+            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
+
+            Player[] players = state.Players;
+            int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
+            int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+
+            marked = new int[81];
+            int x = players[0].Position.X;
+            int y = players[0].Position.Y;
+            if (!DFS(x * 9 + y, firstWinCases)) return false;
+
+            marked = new int[81];
+            int x2 = players[1].Position.X;
+            int y2 = players[1].Position.Y;
+            if (!DFS(x2 * 9 + y2, secondWinCases)) return false;
+
+            return true;
+        }
+
+        public Point[] GetAvailableMoves(State state, Player player)
+        {
+            fieldState = AddWallsAndPlayersToMatrix(state);
+            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
+            int x = player.Position.X;
+            int y = player.Position.Y;
+            int i = x * 2;
+            int j = y * 2;
+            List<Point> value = new List<Point>();
+            // 1 []
+            if (j + 2 < 17 && fieldState[i, j + 1] == 0 && fieldState[i, j + 2] == 0)
+            {
+                value.Add(new Point((short)x, (short)(y + 1)));
+            }
+            // [] 1
+            if (j - 2 > 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] == 0)
+            {
+                value.Add(new Point((short)x, (short)(y - 1)));
+            }
+            // 1
+            // []
+            if (i + 2 < 17 && fieldState[i + 1, j] == 0 && fieldState[i + 2, j] == 0)
+            {
+                value.Add(new Point((short)(x + 1), (short)y));
+            }
+            // []
+            // 1
+            if (i - 2 > 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] == 0)
+            {
+                value.Add(new Point((short)(x - 1), (short)y));
+            }
+
+            if (j + 4 < 17 && fieldState[i, j + 1] == 0 && fieldState[i, j + 2] != 0)
+            {
+                // 1 2 []
+                if (fieldState[i, j + 3] == 0)
+                {
+                    value.Add(new Point((short)x, (short)(y + 2)));
+                }
+                else
+                {
+                    // 1 2 |
+                    //   [] 
+                    if (i + 2 < 17 && fieldState[i + 1, j + 2] == 0 && fieldState[i + 2, j + 2] == 0)
+                    {
+                        value.Add(new Point((short)(x + 1), (short)(y + 1)));
+                    }
+                    //   [] 
+                    // 1 2 |
+                    else if (i - 2 >= 0 && fieldState[i - 1, j + 2] == 0 && fieldState[i - 2, j + 2] == 0)
+                    {
+                        value.Add(new Point((short)(x - 1), (short)(y + 1)));
+                    }
+                }
+            }
+
+            if (j - 4 >= 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] != 0)
+            {
+                // [] 2 1
+                if (fieldState[i, j - 3] == 0)
+                {
+                    value.Add(new Point((short)x, (short)(y - 2)));
+                }
+                else
+                {
+                    // | 2 1
+                    //  []
+                    if (i + 2 < 17 && fieldState[i + 1, j - 2] == 0 && fieldState[i + 2, j - 2] == 0)
+                    {
+                        value.Add(new Point((short)(x + 1), (short)(y - 1)));
+                    }
+                    //  [] 
+                    // | 2 1
+                    else if (i - 2 >= 0 && fieldState[i - 1, j - 2] == 0 && fieldState[i - 2, j - 2] == 0)
+                    {
+                        value.Add(new Point((short)(x - 1), (short)(y - 1)));
+                    }
+                }
+            }
+
+            if (i + 4 < 17 && fieldState[i + 1, j] == 0 && fieldState[i + 2, j] != 0)
+            {
+                // 1
+                // 2
+                // []
+                if (fieldState[i + 3, j] == 0)
+                {
+                    value.Add(new Point((short)(x + 2), (short)y));
+                }
+                else
+                {
+                    // 1
+                    // 2 []
+                    // --
+                    if (j + 2 < 17 && fieldState[i + 2, j + 1] == 0 && fieldState[i + 2, j + 2] == 0)
+                    {
+                        value.Add(new Point((short)(x + 1), (short)(y + 1)));
+                    }
+                    //    1
+                    // [] 2 
+                    //    --
+                    else if (j - 2 >= 0 && fieldState[i + 2, j - 1] == 0 && fieldState[i + 2, j - 2] == 0)
+                    {
+                        value.Add(new Point((short)(x + 1), (short)(y - 1)));
+                    }
+                }
+            }
+
+            if (i - 4 >= 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] != 0)
+            {
+                // []
+                // 2
+                // 1
+                if (fieldState[i - 3, j] == 0)
+                {
+                    value.Add(new Point((short)(x - 2), (short)y));
+                }
+                else
+                {
+                    // --
+                    // 2 []
+                    // 1
+                    if (j + 2 < 17 && fieldState[i - 2, j + 1] == 0 && fieldState[i - 2, j + 2] == 0)
+                    {
+                        value.Add(new Point((short)(x - 1), (short)(y + 1)));
+                    }
+                    //    --
+                    // [] 2
+                    //    1
+                    else if (j - 2 >= 0 && fieldState[i - 2, j - 1] == 0 && fieldState[i - 2, j - 2] == 0)
+                    {
+                        value.Add(new Point((short)(x - 1), (short)(y - 1)));
+                    }
+                }
+            }
+            Point[] result = value.ToArray();
+            return result;
+        }
+
         private static Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] fieldState)
         {
             Dictionary<int, int[]> result = new Dictionary<int, int[]>();
@@ -95,28 +256,6 @@ namespace Quoridor.Core.Logic
                 }
             }
             return matrix;
-        }
-
-        public bool HasAvailablePaths(State state)
-        {
-            fieldState = AddWallsAndPlayersToMatrix(state);
-            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
-
-            Player[] players = state.Players;
-            int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
-            int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-
-            marked = new int[81];
-            int x = players[0].Position.X;
-            int y = players[0].Position.Y;
-            if (!DFS(x * 9 + y, firstWinCases)) return false;
-
-            marked = new int[81];
-            int x2 = players[1].Position.X;
-            int y2 = players[1].Position.Y;
-            if (!DFS(x2 * 9 + y2, secondWinCases)) return false;
-
-            return true;
         }
     }
 }
