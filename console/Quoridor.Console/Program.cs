@@ -9,15 +9,22 @@ namespace Quoridor.Console
 {
     class Program
     {
-        private static readonly GameEngine gameEngine = GameEngine.Instance;
+        private static readonly GameEngine gameEngine;
+        private static readonly Menu menu;
 
-        static void Main(string[] args)
+        static Program()
         {
+            gameEngine = GameEngine.Instance;
+            gameEngine.OnFinish += OnFinish;
             Dictionary<MenuActionType, Action> actions = new Dictionary<MenuActionType, Action>();
             actions.Add(MenuActionType.PVP, StartPvP);
             actions.Add(MenuActionType.PVA, StartPvA);
             actions.Add(MenuActionType.EXIT, Exit);
-            Menu menu = new Menu(actions);
+            menu = new Menu(actions);
+        }
+
+        static void Main(string[] args)
+        {
             menu.Bootstrap();
         }
 
@@ -52,6 +59,13 @@ namespace Quoridor.Console
         static void Exit()
         {
             Environment.Exit(0);
+        }
+
+        static void OnFinish()
+        {
+            WriteLine("Press any key to continue...");
+            ReadKey();
+            menu.Bootstrap();
         }
     }
 }
