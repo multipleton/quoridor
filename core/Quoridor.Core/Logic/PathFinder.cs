@@ -42,7 +42,7 @@ namespace Quoridor.Core.Logic
                 value.Add(new Point((short)x, (short)(y + 1)));
             }
             // [] 1
-            if (j - 2 > 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] == 0)
+            if (j - 2 >= 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] == 0)
             {
                 value.Add(new Point((short)x, (short)(y - 1)));
             }
@@ -54,7 +54,7 @@ namespace Quoridor.Core.Logic
             }
             // []
             // 1
-            if (i - 2 > 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] == 0)
+            if (i - 2 >= 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] == 0)
             {
                 value.Add(new Point((short)(x - 1), (short)y));
             }
