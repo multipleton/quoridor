@@ -73,7 +73,7 @@ namespace Quoridor.Core
             if (IsValidMove(point))
             {
                 player.Move(point);
-                if (IsPlayerWin())
+                if (IsPlayerWin(player))
                 {
                     Finish();
                 }
@@ -119,9 +119,18 @@ namespace Quoridor.Core
             }
         }
 
-        private bool IsPlayerWin()
+        private bool IsPlayerWin(Player player)
         {
-            return false; // TODO
+            Point[] winPositions = pathFinder.GetPlayerWinPositions(player.Id - 1);
+            Point point = player.Position;
+            foreach (var position in winPositions)
+            {
+                if (position.Equals(point))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool IsValidMove(Point point)
