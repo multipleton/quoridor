@@ -20,15 +20,16 @@ namespace Quoridor.Console
             actions.Add(MenuActionType.PVP, StartPvP);
             actions.Add(MenuActionType.PVA, StartPvA);
             actions.Add(MenuActionType.EXIT, Exit);
+            actions.Add(MenuActionType.CONTROLS, Controls);
             menu = new Menu(actions);
         }
 
         static void Main(string[] args)
         {
-            menu.Bootstrap();
+            menu.Show();
         }
 
-        static void StartPvP()
+        private static void StartPvP()
         {
             int playersCount = 2;
             PlayerConnection[] players = new PlayerConnection[playersCount];
@@ -46,7 +47,7 @@ namespace Quoridor.Console
             gameEngine.Start();
         }
 
-        static void StartPvA()
+        private static void StartPvA()
         {
             gameEngine.Initialize(2);
             PlayerConnection playerConnection = new PlayerConnection(gameEngine);
@@ -56,16 +57,30 @@ namespace Quoridor.Console
             gameEngine.Start();
         }
 
-        static void Exit()
+        private static void Controls()
+        {
+            WriteLine("Controls:");
+            WriteLine("'move A1' - move to position A1");
+            WriteLine("'wall A1 A2 B1 B2' - place wall between A1 A2 and B1 B2");
+            WaitAnyKey();
+            menu.Show();
+        }
+
+        private static void Exit()
         {
             Environment.Exit(0);
         }
 
-        static void OnFinish()
+        private static void OnFinish()
+        {
+            WaitAnyKey();
+            menu.Show();
+        }
+
+        private static void WaitAnyKey()
         {
             WriteLine("Press any key to continue...");
             ReadKey();
-            menu.Bootstrap();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Quoridor.Console
             this.actions = actions;
         }
 
-        public void Bootstrap()
+        public void Show()
         {
             PrintMenu();
             HandleKeyInput();
@@ -28,6 +28,7 @@ namespace Quoridor.Console
             {
                 "Player vs. Player",
                 "Player vs. AI",
+                "Controls",
                 "Exit"
             };
             Clear();

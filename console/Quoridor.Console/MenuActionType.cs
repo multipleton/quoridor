@@ -4,6 +4,7 @@
     {
         PVP,
         PVA,
+        CONTROLS,
         EXIT
     }
 }
