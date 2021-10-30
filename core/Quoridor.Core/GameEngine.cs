@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Quoridor.Core.Models;
 using Quoridor.Core.Exceptions;
+using Quoridor.Core.Logic;
 
 namespace Quoridor.Core
 {
@@ -21,10 +22,15 @@ namespace Quoridor.Core
             }
         }
 
-        private GameEngine() { }
+        private GameEngine()
+        {
+            pathFinder = new PathFinder();
+        }
 
         public event Action OnStart;
         public event Action OnFinish;
+
+        private readonly PathFinder pathFinder;
 
         private State state;
         private List<Connection> connections;
@@ -120,7 +126,16 @@ namespace Quoridor.Core
 
         private bool IsValidMove(Point point)
         {
-            return true; // TODO
+            Player player = state.GetPlayer(CurrentConnection.PlayerId);
+            Point[] availableMoves = pathFinder.GetAvailableMoves(state, player);
+            foreach (var position in availableMoves)
+            {
+                if (position.X == point.X && position.Y == point.Y)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool IsValidMove(Point[] start, Point[] end)
