@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Quoridor.Core.Models;
 using Quoridor.Core.Exceptions;
 
@@ -21,6 +22,9 @@ namespace Quoridor.Core
         }
 
         private GameEngine() { }
+
+        public event Action OnStart;
+        public event Action OnFinish;
 
         private State state;
         private List<Connection> connections;
@@ -52,6 +56,7 @@ namespace Quoridor.Core
             connections.ForEach(entry => entry.OnStart(CurrentConnection));
             connections.ForEach(entry => entry.OnUpdate(state));
             CurrentConnection.OnWaitingForMove();
+            OnStart?.Invoke();
         }
 
         public void MakeMove(Point point)
@@ -127,6 +132,7 @@ namespace Quoridor.Core
         {
             gameFinished = true;
             connections.ForEach(entry => entry.OnFinish(CurrentConnection));
+            OnFinish?.Invoke();
         }
     }
 }
