@@ -52,6 +52,17 @@ namespace Quoridor.Core.Logic
             return walls.ToArray();
         }
 
+        public Point[] GetPlayerWinPositions(int index)
+        {
+            List<Point> positions = new List<Point>();
+            int y = index == 0 ? 8 : 0;
+            for (int i = 0; i < 9; i++)
+            {
+                positions.Add(new Point((short)i, (short)y));
+            }
+            return positions.ToArray();
+        }
+
         public Point[] GetAvailableMoves(State state, Player player)
         {
             fieldState = AddWallsAndPlayersToMatrix(state);
