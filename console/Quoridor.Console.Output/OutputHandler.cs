@@ -6,11 +6,11 @@ namespace Quoridor.Console.Output
 {
     public class OutputHandler
     {
-        private readonly string identifier;
+        private readonly Connection connection;
 
-        public OutputHandler(string identifier)
+        public OutputHandler(Connection connection)
         {
-            this.identifier = identifier;
+            this.connection = connection;
             OutputEncoding = Encoding.UTF8;
         }
 
@@ -129,7 +129,7 @@ namespace Quoridor.Console.Output
         {
             WriteLine();
             WriteLine();
-            WriteLine("[" + identifier + "]:");
+            WriteLine("[" + connection.Identifier + "]:");
         }
 
         private Player GetPlayerOnCell(State state, int x, int y)

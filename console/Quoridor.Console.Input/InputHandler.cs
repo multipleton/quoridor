@@ -6,17 +6,17 @@ namespace Quoridor.Console.Input
 {
     public class InputHandler
     {
-        private readonly string identifier;
+        private readonly Connection connection;
 
-        public InputHandler(string identifier)
+        public InputHandler(Connection connection)
         {
-            this.identifier = identifier;
+            this.connection = connection;
         }
 
         public void ReadInput(Action<Point> onMove, Action<Point[], Point[]> onWall)
         {
             WriteLine();
-            Write("[" + identifier + "] > ");
+            Write("[" + connection.Identifier + " (" + connection.PlayerId + ")] > ");
             string command = ReadLine();
             var splitCommand = command.Split(new char[0]);
             switch (splitCommand[0].ToLower())
