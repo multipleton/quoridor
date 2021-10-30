@@ -130,7 +130,7 @@ namespace Quoridor.Core
             Point[] availableMoves = pathFinder.GetAvailableMoves(state, player);
             foreach (var position in availableMoves)
             {
-                if (position.X == point.X && position.Y == point.Y)
+                if (position.Equals(point))
                 {
                     return true;
                 }
@@ -140,7 +140,15 @@ namespace Quoridor.Core
 
         private bool IsValidMove(Point[] start, Point[] end)
         {
-            return true; // TODO
+            Wall[] walls = pathFinder.GetAvailableWalls(state);
+            foreach (var wall in walls)
+            {
+                if (wall.Equals(new Wall(start, end)))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void Finish()
