@@ -1,143 +1,284 @@
 ﻿using Quoridor.Core.Models;
 using System.Collections.Generic;
-using System;
 
 namespace Quoridor.Core.Logic
 {
     public class PathFinder
     {
-        private Node[,] nodes;
-        private int _x;
-        private int _y;
-        private int _finalY;
-        private int[,] marked;
-        public PathFinder(int[,] fieldState, Point playerPosition, int finalY)
+        private Dictionary<int, int[]> adjacencyGraph;
+        private int[] marked;
+        private int[,] fieldState;
+
+        public bool HasAvailablePaths(State state)
         {
-            nodes = transformFieldStateToGraph(fieldState);
-            _x = playerPosition.X;
-            _y = playerPosition.Y;
-            _finalY = finalY;
-            marked = new int[9, 9];
+            fieldState = AddWallsAndPlayersToMatrix(state);
+            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
+            Player[] players = state.Players;
+            int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
+            int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+            marked = new int[81];
+            int x = players[0].Position.X;
+            int y = players[0].Position.Y;
+            if (!DFS(x * 9 + y, firstWinCases)) return false;
+            marked = new int[81];
+            int x2 = players[1].Position.X;
+            int y2 = players[1].Position.Y;
+            if (!DFS(x2 * 9 + y2, secondWinCases)) return false;
+            return true;
         }
-        private Node[,] transformFieldStateToGraph(int[,] fieldState)
+
+        public Point[] GetAvailableMoves(State state, Player player)
         {
-            var nodes = new Node[9, 9];
-            for (int i = 0; i < 17; i = i + 2)
+            fieldState = AddWallsAndPlayersToMatrix(state);
+            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
+            int x = player.Position.X;
+            int y = player.Position.Y;
+            int i = x * 2;
+            int j = y * 2;
+            List<Point> value = new List<Point>();
+            // 1 []
+            if (j + 2 < 17 && fieldState[i, j + 1] == 0 && fieldState[i, j + 2] == 0)
+            {
+                value.Add(new Point((short)x, (short)(y + 1)));
+            }
+            // [] 1
+            if (j - 2 > 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] == 0)
+            {
+                value.Add(new Point((short)x, (short)(y - 1)));
+            }
+            // 1
+            // []
+            if (i + 2 < 17 && fieldState[i + 1, j] == 0 && fieldState[i + 2, j] == 0)
+            {
+                value.Add(new Point((short)(x + 1), (short)y));
+            }
+            // []
+            // 1
+            if (i - 2 > 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] == 0)
+            {
+                value.Add(new Point((short)(x - 1), (short)y));
+            }
+            if (j + 4 < 17 && fieldState[i, j + 1] == 0 && fieldState[i, j + 2] != 0)
+            {
+                // 1 2 []
+                if (fieldState[i, j + 3] == 0)
+                {
+                    value.Add(new Point((short)x, (short)(y + 2)));
+                }
+                else
+                {
+                    // 1 2 |
+                    //   [] 
+                    if (i + 2 < 17 && fieldState[i + 1, j + 2] == 0 && fieldState[i + 2, j + 2] == 0)
+                    {
+                        value.Add(new Point((short)(x + 1), (short)(y + 1)));
+                    }
+                    //   [] 
+                    // 1 2 |
+                    if (i - 2 >= 0 && fieldState[i - 1, j + 2] == 0 && fieldState[i - 2, j + 2] == 0)
+                    {
+                        value.Add(new Point((short)(x - 1), (short)(y + 1)));
+                    }
+                }
+            }
+            if (j - 4 >= 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] != 0)
+            {
+                // [] 2 1
+                if (fieldState[i, j - 3] == 0)
+                {
+                    value.Add(new Point((short)x, (short)(y - 2)));
+                }
+                else
+                {
+                    // | 2 1
+                    //  []
+                    if (i + 2 < 17 && fieldState[i + 1, j - 2] == 0 && fieldState[i + 2, j - 2] == 0)
+                    {
+                        value.Add(new Point((short)(x + 1), (short)(y - 1)));
+                    }
+                    //  [] 
+                    // | 2 1
+                    if (i - 2 >= 0 && fieldState[i - 1, j - 2] == 0 && fieldState[i - 2, j - 2] == 0)
+                    {
+                        value.Add(new Point((short)(x - 1), (short)(y - 1)));
+                    }
+                }
+            }
+            if (i + 4 < 17 && fieldState[i + 1, j] == 0 && fieldState[i + 2, j] != 0)
+            {
+                // 1
+                // 2
+                // []
+                if (fieldState[i + 3, j] == 0)
+                {
+                    value.Add(new Point((short)(x + 2), (short)y));
+                }
+                else
+                {
+                    // 1
+                    // 2 []
+                    // --
+                    if (j + 2 < 17 && fieldState[i + 2, j + 1] == 0 && fieldState[i + 2, j + 2] == 0)
+                    {
+                        value.Add(new Point((short)(x + 1), (short)(y + 1)));
+                    }
+                    //    1
+                    // [] 2 
+                    //    --
+                    if (j - 2 >= 0 && fieldState[i + 2, j - 1] == 0 && fieldState[i + 2, j - 2] == 0)
+                    {
+                        value.Add(new Point((short)(x + 1), (short)(y - 1)));
+                    }
+                }
+            }
+            if (i - 4 >= 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] != 0)
+            {
+                // []
+                // 2
+                // 1
+                if (fieldState[i - 3, j] == 0)
+                {
+                    value.Add(new Point((short)(x - 2), (short)y));
+                }
+                else
+                {
+                    // --
+                    // 2 []
+                    // 1
+                    if (j + 2 < 17 && fieldState[i - 2, j + 1] == 0 && fieldState[i - 2, j + 2] == 0)
+                    {
+                        value.Add(new Point((short)(x - 1), (short)(y + 1)));
+                    }
+                    //    --
+                    // [] 2
+                    //    1
+                    if (j - 2 >= 0 && fieldState[i - 2, j - 1] == 0 && fieldState[i - 2, j - 2] == 0)
+                    {
+                        value.Add(new Point((short)(x - 1), (short)(y - 1)));
+                    }
+                }
+            }
+            Point[] result = value.ToArray();
+            return result;
+        }
+
+        public Wall[] GetAvailableWalls(State state)
+        {
+            fieldState = AddWallsAndPlayersToMatrix(state);
+            List<Wall> walls = new List<Wall>();
+            for (int i = 1; i < 17; i = i + 2)
             {
                 for (int j = 0; j < 17; j = j + 2)
                 {
-                    int x = i / 2;
+                    int x = (i - 1) / 2;
                     int y = j / 2;
-                    var node = new Node();
-                    node.X = x;
-                    node.Y = y;
-                    nodes[x, y] = node;
-
-                    if (i == 0)
+                    if (j + 2 < 17 && fieldState[i, j] == 0 && fieldState[i, j + 1] == 0 && fieldState[i, j + 2] == 0)
                     {
-                        node.Top = 1;
-                    }
-                    if (j == 0)
-                    {
-                        node.Left = 1;
-                    }
-                    if (i == 16)
-                    {
-                        node.Bottom = 1;
-                    }
-                    if (j == 16)
-                    {
-                        node.Right = 1;
-                    }
-
-                    if (j + 1 < 17 && fieldState[i, j + 1] == 9)
-                    {
-                        node.Right = 1;
-                    }
-                    if (i + 1 < 17 && fieldState[i + 1, j] == 8)
-                    {
-                        node.Bottom = 1;
-                    }
-                    if (j - 1 > 0 && fieldState[i, j - 1] == 9)
-                    {
-                        node.Left = 1;
-                    }
-                    if (i - 1 > 0 && fieldState[i - 1, j] == 8)
-                    {
-                        node.Top = 1;
+                        walls.Add(new Wall(
+                            new Point[] { new Point((short)x, (short)y), new Point((short)x, (short)(y + 1)) },
+                            new Point[] { new Point((short)(x + 1), (short)y), new Point((short)(x + 1), (short)(y + 1)) }));
                     }
                 }
             }
-            return nodes;
+            for (int i = 0; i < 17; i = i + 2)
+            {
+                for (int j = 1; j < 17; j = j + 2)
+                {
+                    int x = i / 2;
+                    int y = (j - 1) / 2;
+                    if (i + 2 < 17 && fieldState[i, j] == 0 && fieldState[i + 1, j] == 0 && fieldState[i + 2, j] == 0)
+                    {
+                        walls.Add(new Wall(
+                            new Point[] { new Point((short)x, (short)y), new Point((short)(x + 1), (short)y) },
+                            new Point[] { new Point((short)x, (short)(y + 1)), new Point((short)(x + 1), (short)(y + 1)) }));
+                    }
+                }
+            }
+            return walls.ToArray();
         }
 
-        public bool DFS(int x = 8, int y = 4)
+        private Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] fieldState)
         {
-            List<Point> availableList = new List<Point>();
-
-            if (nodes[x, y].Top == 0)
+            Dictionary<int, int[]> result = new Dictionary<int, int[]>();
+            for (int i = 0; i < fieldState.GetLength(0); i = i + 2)
             {
-                availableList.Add(new Point((short)(x - 1), (short)y));
-            }
-            if (nodes[x, y].Bottom == 0)
-            {
-                availableList.Add(new Point((short)(x + 1), (short)y));
-            }
-            if (nodes[x, y].Left == 0)
-            {
-                availableList.Add(new Point((short)x, (short)(y - 1)));
-            }
-            if (nodes[x, y].Right == 0)
-            {
-                availableList.Add(new Point((short)x, (short)(y + 1)));
-            }
-
-            var available = availableList.ToArray();
-
-            for (int i = 0; i < available.Length; i++)
-            {
-                if (x == 0) Console.WriteLine("Win");
-                x = available[i].X;
-                y = available[i].Y;
-                Console.WriteLine(x + " " + y);
-
-                if (marked[x, y] == 1) continue;
-                marked[x, y] = 1;
-
-                if (x - 1 > 0 && nodes[x, y].Top == 0)
+                for (int j = 0; j < fieldState.GetLength(1); j = j + 2)
                 {
-                    DFS(x - 1, y);
+                    int x = i / 2;
+                    int y = j / 2;
+                    int key = x * 9 + y;
+                    List<int> value = new List<int>();
+                    if (j + 1 < 17 && fieldState[i, j + 1] == 0)
+                    {
+                        value.Add(x * 9 + y + 1);
+                    }
+                    if (j - 1 > 0 && fieldState[i, j - 1] == 0)
+                    {
+                        value.Add(x * 9 + y - 1);
+                    }
+                    if (i + 1 < 17 && fieldState[i + 1, j] == 0)
+                    {
+                        value.Add((x + 1) * 9 + y);
+                    }
+                    if (i - 1 > 0 && fieldState[i - 1, j] == 0)
+                    {
+                        value.Add((x - 1) * 9 + y);
+                    }
+                    result.Add(key, value.ToArray());
                 }
-                if (x + 1 < 9 && nodes[x, y].Bottom == 0)
-                {
-                    DFS(x + 1, y);
-                }
-                if (y - 1 > 0 && nodes[x, y].Left == 0)
-                {
-                    DFS(x, y - 1);
-                }
-                if (y + 1 < 9 && nodes[x, y].Right == 0)
-                {
-                    DFS(x, y + 1);
-                }
+            }
+            return result;
+        }
+
+        private bool DFS(int current, int[] winCases)
+        {
+            if (marked[current] != 0)
+            {
+                return false;
+            }
+            marked[current] = 1;
+            for (int i = 0; i < winCases.Length; i++)
+            {
+                if (current == winCases[i]) return true;
+            }
+            for (int i = 0; i < adjacencyGraph[current].Length; i++)
+            {
+                if (DFS(adjacencyGraph[current][i], winCases)) return true;
             }
             return false;
         }
 
-        private class Node
+        private int[,] AddWallsAndPlayersToMatrix(State state)
         {
-            private int top = 0;
-            private int bottom = 0;
-            private int left = 0;
-            private int right = 0;
-            private int x;
-            private int y;
-            public int Top { get => top; set => top = value; }
-            public int Bottom { get => bottom; set => bottom = value; }
-            public int Left { get => left; set => left = value; }
-            public int Right { get => right; set => right = value; }
-            public int X { get => x; set => x = value; }
-            public int Y { get => y; set => y = value; }
+            int[,] matrix = new int[17, 17];
+            Player[] players = state.Players;
+            Wall[] walls = state.Walls;
+            for (int i = 0; i < players.Length; i++)
+            {
+                int x = players[i].Position.X;
+                int y = players[i].Position.Y;
+                matrix[x * 2, y * 2] = i + 1;
+            }
+            for (int i = 0; i < walls.Length; i++)
+            {
+                Point[] start = walls[i].Start;
+                int x1 = start[0].X;
+                int y1 = start[0].Y;
+                int x2 = start[1].X;
+                if (x1 == x2)
+                {
+                    matrix[x1 * 2 + 1, y1 * 2] = 8;
+                    matrix[x1 * 2 + 1, y1 * 2 + 1] = 8;
+                    matrix[x1 * 2 + 1, y1 * 2 + 2] = 8;
+                }
+                else
+                {
+                    matrix[x1 * 2, y1 * 2 + 1] = 9;
+                    matrix[x1 * 2 + 1, y1 * 2 + 1] = 9;
+                    matrix[x1 * 2 + 2, y1 * 2 + 1] = 9;
+                }
+            }
+            return matrix;
         }
     }
 }
