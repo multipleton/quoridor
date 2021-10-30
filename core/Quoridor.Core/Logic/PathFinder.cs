@@ -171,6 +171,41 @@ namespace Quoridor.Core.Logic
             return result;
         }
 
+        public Wall[] getAvailableWalls(State state)
+        {
+            fieldState = AddWallsAndPlayersToMatrix(state);
+            List<Wall> walls = new List<Wall>();
+            for (int i = 1; i < 17; i = i + 2)
+            {
+                for (int j = 0; j < 17; j = j + 2)
+                {
+                    int x = (i - 1) / 2;
+                    int y = j / 2;
+                    if (j + 2 < 17 && fieldState[i, j] == 0 && fieldState[i, j + 1] == 0 && fieldState[i, j + 2] == 0)
+                    {
+                        walls.Add(new Wall(
+                            new Point[] { new Point((short)x, (short)y), new Point((short)x, (short)(y + 1)) },
+                            new Point[] { new Point((short)(x + 1), (short)y), new Point((short)(x + 1), (short)(y + 1)) }));
+                    }
+                }
+            }
+            for (int i = 0; i < 17; i = i + 2)
+            {
+                for (int j = 1; j < 17; j = j + 2)
+                {
+                    int x = i / 2;
+                    int y = (j - 1) / 2;
+                    if (i + 2 < 17 && fieldState[i, j] == 0 && fieldState[i + 1, j] == 0 && fieldState[i + 2, j] == 0)
+                    {
+                        walls.Add(new Wall(
+                            new Point[] { new Point((short)x, (short)y), new Point((short)(x + 1), (short)y) },
+                            new Point[] { new Point((short)x, (short)(y + 1)), new Point((short)(x + 1), (short)(y + 1)) }));
+                    }
+                }
+            }
+            return walls.ToArray();
+        }
+
         private static Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] fieldState)
         {
             Dictionary<int, int[]> result = new Dictionary<int, int[]>();
