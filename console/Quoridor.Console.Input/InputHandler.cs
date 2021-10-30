@@ -6,9 +6,17 @@ namespace Quoridor.Console.Input
 {
     public class InputHandler
     {
+        private readonly string identifier;
+
+        public InputHandler(string identifier)
+        {
+            this.identifier = identifier;
+        }
+
         public void ReadInput(Action<Point> onMove, Action<Point[], Point[]> onWall)
         {
-            Write("> ");
+            WriteLine();
+            Write("[" + identifier + "] > ");
             string command = ReadLine();
             var splitCommand = command.Split(new char[0]);
             switch (splitCommand[0].ToLower())

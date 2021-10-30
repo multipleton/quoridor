@@ -90,6 +90,7 @@ namespace Quoridor.Console
 
         private void PickMenuItem()
         {
+            Clear();
             actions[currentMenuActionType]();
         }
     }

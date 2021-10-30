@@ -8,17 +8,15 @@ namespace Quoridor.Player
 {
     public class PlayerConnection : Connection
     {
-        private readonly GameEngine gameEngine;
         private readonly InputHandler inputHandler;
         private readonly OutputHandler outputHandler;
 
         private readonly Action<Point> onInputMove;
         private readonly Action<Point[], Point[]> onInputWall;
 
-        public PlayerConnection(GameEngine gameEngine) : base("player") {
-            this.gameEngine = gameEngine;
-            inputHandler = new InputHandler();
-            outputHandler = new OutputHandler();
+        public PlayerConnection(GameEngine gameEngine, string identifier = "Player") : base(identifier) {
+            inputHandler = new InputHandler(identifier);
+            outputHandler = new OutputHandler(identifier);
             onInputMove = point => gameEngine.MakeMove(point);
             onInputWall = (start, end) => gameEngine.MakeMove(start, end);
         }
@@ -62,7 +60,6 @@ namespace Quoridor.Player
         public override void OnFinish(Connection winner)
         {
             outputHandler.PrintFinish(winner);
-            // TODO: call input handler
         }
     }
 }

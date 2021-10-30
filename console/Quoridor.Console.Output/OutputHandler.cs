@@ -6,10 +6,14 @@ namespace Quoridor.Console.Output
 {
     public class OutputHandler
     {
-        public OutputHandler()
+        private readonly string identifier;
+
+        public OutputHandler(string identifier)
         {
+            this.identifier = identifier;
             OutputEncoding = Encoding.UTF8;
         }
+
         public void PrintConnected()
         {
             PrintSeparator();
@@ -97,7 +101,7 @@ namespace Quoridor.Console.Output
             {
                 Write("-");
             }
-            PrintSeparator();
+            WriteLine();
         }
 
         public void PrintMove(Connection previous, Connection current)
@@ -117,13 +121,15 @@ namespace Quoridor.Console.Output
         {
             PrintSeparator();
             WriteLine("The game finished!");
-            WriteLine("Winner: " + winner);
+            WriteLine("Winner: " + winner.Identifier);
             WriteLine("Do you want to restart? (y/n)");
         }
 
         private void PrintSeparator()
         {
-            WriteLine("");
+            WriteLine();
+            WriteLine();
+            WriteLine("[" + identifier + "]:");
         }
 
         private Player GetPlayerOnCell(State state, int x, int y)
