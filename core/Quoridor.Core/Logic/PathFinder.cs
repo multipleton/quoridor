@@ -81,7 +81,7 @@ namespace Quoridor.Core.Logic
                     }
                     //   [] 
                     // 1 2 |
-                    else if (i - 2 >= 0 && fieldState[i - 1, j + 2] == 0 && fieldState[i - 2, j + 2] == 0)
+                    if (i - 2 >= 0 && fieldState[i - 1, j + 2] == 0 && fieldState[i - 2, j + 2] == 0)
                     {
                         value.Add(new Point((short)(x - 1), (short)(y + 1)));
                     }
@@ -105,7 +105,7 @@ namespace Quoridor.Core.Logic
                     }
                     //  [] 
                     // | 2 1
-                    else if (i - 2 >= 0 && fieldState[i - 1, j - 2] == 0 && fieldState[i - 2, j - 2] == 0)
+                    if (i - 2 >= 0 && fieldState[i - 1, j - 2] == 0 && fieldState[i - 2, j - 2] == 0)
                     {
                         value.Add(new Point((short)(x - 1), (short)(y - 1)));
                     }
@@ -133,7 +133,7 @@ namespace Quoridor.Core.Logic
                     //    1
                     // [] 2 
                     //    --
-                    else if (j - 2 >= 0 && fieldState[i + 2, j - 1] == 0 && fieldState[i + 2, j - 2] == 0)
+                    if (j - 2 >= 0 && fieldState[i + 2, j - 1] == 0 && fieldState[i + 2, j - 2] == 0)
                     {
                         value.Add(new Point((short)(x + 1), (short)(y - 1)));
                     }
@@ -161,7 +161,7 @@ namespace Quoridor.Core.Logic
                     //    --
                     // [] 2
                     //    1
-                    else if (j - 2 >= 0 && fieldState[i - 2, j - 1] == 0 && fieldState[i - 2, j - 2] == 0)
+                    if (j - 2 >= 0 && fieldState[i - 2, j - 1] == 0 && fieldState[i - 2, j - 2] == 0)
                     {
                         value.Add(new Point((short)(x - 1), (short)(y - 1)));
                     }
