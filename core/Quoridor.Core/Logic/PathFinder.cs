@@ -1,34 +1,29 @@
 ﻿using Quoridor.Core.Models;
 using System.Collections.Generic;
-using System;
 
 namespace Quoridor.Core.Logic
 {
     public class PathFinder
     {
-        private static Dictionary<int, int[]> adjacencyGraph;
-        private static int[] marked;
+        private Dictionary<int, int[]> adjacencyGraph;
+        private int[] marked;
         private int[,] fieldState;
 
         public bool HasAvailablePaths(State state)
         {
             fieldState = AddWallsAndPlayersToMatrix(state);
             adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
-
             Player[] players = state.Players;
             int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
             int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-
             marked = new int[81];
             int x = players[0].Position.X;
             int y = players[0].Position.Y;
             if (!DFS(x * 9 + y, firstWinCases)) return false;
-
             marked = new int[81];
             int x2 = players[1].Position.X;
             int y2 = players[1].Position.Y;
             if (!DFS(x2 * 9 + y2, secondWinCases)) return false;
-
             return true;
         }
 
@@ -63,7 +58,6 @@ namespace Quoridor.Core.Logic
             {
                 value.Add(new Point((short)(x - 1), (short)y));
             }
-
             if (j + 4 < 17 && fieldState[i, j + 1] == 0 && fieldState[i, j + 2] != 0)
             {
                 // 1 2 []
@@ -87,7 +81,6 @@ namespace Quoridor.Core.Logic
                     }
                 }
             }
-
             if (j - 4 >= 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] != 0)
             {
                 // [] 2 1
@@ -111,7 +104,6 @@ namespace Quoridor.Core.Logic
                     }
                 }
             }
-
             if (i + 4 < 17 && fieldState[i + 1, j] == 0 && fieldState[i + 2, j] != 0)
             {
                 // 1
@@ -139,7 +131,6 @@ namespace Quoridor.Core.Logic
                     }
                 }
             }
-
             if (i - 4 >= 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] != 0)
             {
                 // []
@@ -171,7 +162,7 @@ namespace Quoridor.Core.Logic
             return result;
         }
 
-        public Wall[] getAvailableWalls(State state)
+        public Wall[] GetAvailableWalls(State state)
         {
             fieldState = AddWallsAndPlayersToMatrix(state);
             List<Wall> walls = new List<Wall>();
@@ -206,7 +197,7 @@ namespace Quoridor.Core.Logic
             return walls.ToArray();
         }
 
-        private static Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] fieldState)
+        private Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] fieldState)
         {
             Dictionary<int, int[]> result = new Dictionary<int, int[]>();
             for (int i = 0; i < fieldState.GetLength(0); i = i + 2)
@@ -219,7 +210,7 @@ namespace Quoridor.Core.Logic
                     List<int> value = new List<int>();
                     if (j + 1 < 17 && fieldState[i, j + 1] == 0)
                     {
-                        value.Add(x * 9 + y + 1); 
+                        value.Add(x * 9 + y + 1);
                     }
                     if (j - 1 > 0 && fieldState[i, j - 1] == 0)
                     {
@@ -239,14 +230,13 @@ namespace Quoridor.Core.Logic
             return result;
         }
 
-        private static bool DFS(int current, int[] winCases)
+        private bool DFS(int current, int[] winCases)
         {
             if (marked[current] != 0)
             {
                 return false;
             }
             marked[current] = 1;
-
             for (int i = 0; i < winCases.Length; i++)
             {
                 if (current == winCases[i]) return true;
@@ -258,7 +248,7 @@ namespace Quoridor.Core.Logic
             return false;
         }
 
-        private static int[,] AddWallsAndPlayersToMatrix(State state)
+        private int[,] AddWallsAndPlayersToMatrix(State state)
         {
             int[,] matrix = new int[17, 17];
             Player[] players = state.Players;
@@ -272,11 +262,9 @@ namespace Quoridor.Core.Logic
             for (int i = 0; i < walls.Length; i++)
             {
                 Point[] start = walls[i].Start;
-
                 int x1 = start[0].X;
                 int y1 = start[0].Y;
                 int x2 = start[1].X;
-
                 if (x1 == x2)
                 {
                     matrix[x1 * 2 + 1, y1 * 2] = 8;
