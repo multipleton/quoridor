@@ -9,22 +9,58 @@ namespace Quoridor.Core.Logic
         private int[] marked;
         private int[,] fieldState;
 
-        public bool HasAvailablePaths(State state)
+        public Wall[] GetAvailableWalls(State state)
         {
-            fieldState = AddWallsAndPlayersToMatrix(state);
-            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
-            Player[] players = state.Players;
-            int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
-            int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-            marked = new int[81];
-            int x = players[0].Position.X;
-            int y = players[0].Position.Y;
-            if (!DFS(x * 9 + y, firstWinCases)) return false;
-            marked = new int[81];
-            int x2 = players[1].Position.X;
-            int y2 = players[1].Position.Y;
-            if (!DFS(x2 * 9 + y2, secondWinCases)) return false;
-            return true;
+            int[,] matrix = AddWallsAndPlayersToMatrix(state);
+            List<Wall> walls = new List<Wall>();
+            for (int i = 1; i < 17; i = i + 2)
+            {
+                for (int j = 0; j < 17; j = j + 2)
+                {
+                    int x = (i - 1) / 2;
+                    int y = j / 2;
+                    if (j + 2 < 17 && matrix[i, j] == 0 && matrix[i, j + 1] == 0 && matrix[i, j + 2] == 0)
+                    {
+                        Wall wall = new Wall(
+                            new Point[] { new Point((short)x, (short)y), new Point((short)x, (short)(y + 1)) },
+                            new Point[] { new Point((short)(x + 1), (short)y), new Point((short)(x + 1), (short)(y + 1)) });
+                        if (HasAvailablePaths(state, wall))
+                        {
+                            walls.Add(wall);
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < 17; i = i + 2)
+            {
+                for (int j = 1; j < 17; j = j + 2)
+                {
+                    int x = i / 2;
+                    int y = (j - 1) / 2;
+                    if (i + 2 < 17 && matrix[i, j] == 0 && matrix[i + 1, j] == 0 && matrix[i + 2, j] == 0)
+                    {
+                        Wall wall = new Wall(
+                            new Point[] { new Point((short)x, (short)y), new Point((short)(x + 1), (short)y) },
+                            new Point[] { new Point((short)x, (short)(y + 1)), new Point((short)(x + 1), (short)(y + 1)) });
+                        if (HasAvailablePaths(state, wall))
+                        {
+                            walls.Add(wall);
+                        }
+                    }
+                }
+            }
+            return walls.ToArray();
+        }
+
+        public Point[] GetPlayerWinPositions(int index)
+        {
+            List<Point> positions = new List<Point>();
+            int y = index == 0 ? 8 : 0;
+            for (int i = 0; i < 9; i++)
+            {
+                positions.Add(new Point((short)i, (short)y));
+            }
+            return positions.ToArray();
         }
 
         public Point[] GetAvailableMoves(State state, Player player)
@@ -42,7 +78,7 @@ namespace Quoridor.Core.Logic
                 value.Add(new Point((short)x, (short)(y + 1)));
             }
             // [] 1
-            if (j - 2 > 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] == 0)
+            if (j - 2 >= 0 && fieldState[i, j - 1] == 0 && fieldState[i, j - 2] == 0)
             {
                 value.Add(new Point((short)x, (short)(y - 1)));
             }
@@ -54,7 +90,7 @@ namespace Quoridor.Core.Logic
             }
             // []
             // 1
-            if (i - 2 > 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] == 0)
+            if (i - 2 >= 0 && fieldState[i - 1, j] == 0 && fieldState[i - 2, j] == 0)
             {
                 value.Add(new Point((short)(x - 1), (short)y));
             }
@@ -162,39 +198,22 @@ namespace Quoridor.Core.Logic
             return result;
         }
 
-        public Wall[] GetAvailableWalls(State state)
+        private bool HasAvailablePaths(State state, Wall wall)
         {
-            fieldState = AddWallsAndPlayersToMatrix(state);
-            List<Wall> walls = new List<Wall>();
-            for (int i = 1; i < 17; i = i + 2)
-            {
-                for (int j = 0; j < 17; j = j + 2)
-                {
-                    int x = (i - 1) / 2;
-                    int y = j / 2;
-                    if (j + 2 < 17 && fieldState[i, j] == 0 && fieldState[i, j + 1] == 0 && fieldState[i, j + 2] == 0)
-                    {
-                        walls.Add(new Wall(
-                            new Point[] { new Point((short)x, (short)y), new Point((short)x, (short)(y + 1)) },
-                            new Point[] { new Point((short)(x + 1), (short)y), new Point((short)(x + 1), (short)(y + 1)) }));
-                    }
-                }
-            }
-            for (int i = 0; i < 17; i = i + 2)
-            {
-                for (int j = 1; j < 17; j = j + 2)
-                {
-                    int x = i / 2;
-                    int y = (j - 1) / 2;
-                    if (i + 2 < 17 && fieldState[i, j] == 0 && fieldState[i + 1, j] == 0 && fieldState[i + 2, j] == 0)
-                    {
-                        walls.Add(new Wall(
-                            new Point[] { new Point((short)x, (short)y), new Point((short)(x + 1), (short)y) },
-                            new Point[] { new Point((short)x, (short)(y + 1)), new Point((short)(x + 1), (short)(y + 1)) }));
-                    }
-                }
-            }
-            return walls.ToArray();
+            fieldState = AddWallsAndPlayersToMatrix(state, wall);
+            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
+            Player[] players = state.Players;
+            int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
+            int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+            marked = new int[81];
+            int x = players[0].Position.X;
+            int y = players[0].Position.Y;
+            if (!DFS(x * 9 + y, firstWinCases)) return false;
+            marked = new int[81];
+            int x2 = players[1].Position.X;
+            int y2 = players[1].Position.Y;
+            if (!DFS(x2 * 9 + y2, secondWinCases)) return false;
+            return true;
         }
 
         private Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] fieldState)
@@ -248,11 +267,17 @@ namespace Quoridor.Core.Logic
             return false;
         }
 
-        private int[,] AddWallsAndPlayersToMatrix(State state)
+        private int[,] AddWallsAndPlayersToMatrix(State state, Wall wall = null)
         {
             int[,] matrix = new int[17, 17];
             Player[] players = state.Players;
-            Wall[] walls = state.Walls;
+            List<Wall> wallsList = new List<Wall>();
+            for (int i = 0; i < state.Walls.Length; i++)
+            {
+                wallsList.Add(state.Walls[i]);
+            }
+            if (wall != null) wallsList.Add(wall);
+            Wall[] walls = wallsList.ToArray();
             for (int i = 0; i < players.Length; i++)
             {
                 int x = players[i].Position.X;
@@ -262,9 +287,11 @@ namespace Quoridor.Core.Logic
             for (int i = 0; i < walls.Length; i++)
             {
                 Point[] start = walls[i].Start;
+
                 int x1 = start[0].X;
                 int y1 = start[0].Y;
                 int x2 = start[1].X;
+
                 if (x1 == x2)
                 {
                     matrix[x1 * 2 + 1, y1 * 2] = 8;

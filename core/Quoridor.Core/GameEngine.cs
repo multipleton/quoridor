@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Quoridor.Core.Models;
 using Quoridor.Core.Exceptions;
+using Quoridor.Core.Logic;
 
 namespace Quoridor.Core
 {
@@ -21,10 +22,15 @@ namespace Quoridor.Core
             }
         }
 
-        private GameEngine() { }
+        private GameEngine()
+        {
+            pathFinder = new PathFinder();
+        }
 
         public event Action OnStart;
         public event Action OnFinish;
+
+        private readonly PathFinder pathFinder;
 
         private State state;
         private List<Connection> connections;
@@ -67,7 +73,7 @@ namespace Quoridor.Core
             if (IsValidMove(point))
             {
                 player.Move(point);
-                if (IsPlayerWin())
+                if (IsPlayerWin(player))
                 {
                     Finish();
                 }
@@ -113,19 +119,45 @@ namespace Quoridor.Core
             }
         }
 
-        private bool IsPlayerWin()
+        private bool IsPlayerWin(Player player)
         {
-            return false; // TODO
+            Point[] winPositions = pathFinder.GetPlayerWinPositions(player.Id - 1);
+            Point point = player.Position;
+            foreach (var position in winPositions)
+            {
+                if (position.Equals(point))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool IsValidMove(Point point)
         {
-            return true; // TODO
+            Player player = state.GetPlayer(CurrentConnection.PlayerId);
+            Point[] availableMoves = pathFinder.GetAvailableMoves(state, player);
+            foreach (var position in availableMoves)
+            {
+                if (position.Equals(point))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool IsValidMove(Point[] start, Point[] end)
         {
-            return true; // TODO
+            Wall[] walls = pathFinder.GetAvailableWalls(state);
+            foreach (var wall in walls)
+            {
+                if (wall.Equals(new Wall(start, end)))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void Finish()
