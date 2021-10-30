@@ -14,7 +14,8 @@ namespace Quoridor.Player
         private readonly Action<Point> onInputMove;
         private readonly Action<Point[], Point[]> onInputWall;
 
-        public PlayerConnection(GameEngine gameEngine, string identifier = "Player") : base(identifier) {
+        public PlayerConnection(GameEngine gameEngine, string identifier = "Player") : base(identifier)
+        {
             inputHandler = new InputHandler(this);
             outputHandler = new OutputHandler(this);
             onInputMove = point => gameEngine.MakeMove(point);
@@ -43,7 +44,7 @@ namespace Quoridor.Player
 
         public override void OnWaitingForMove()
         {
-            inputHandler.ReadInput(onInputMove, onInputWall);            
+            inputHandler.ReadInput(onInputMove, onInputWall);
         }
 
         public override void OnInvalidMove()

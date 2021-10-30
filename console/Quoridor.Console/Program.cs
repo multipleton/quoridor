@@ -34,7 +34,7 @@ namespace Quoridor.Console
             PlayerConnection[] players = new PlayerConnection[playersCount];
             for (int i = 0; i < playersCount; i++)
             {
-                Write("Name for player " + (i + 1) + ": ");
+                Write("Name for Player " + (i + 1) + ": ");
                 string name = ReadLine();
                 players[i] = new PlayerConnection(gameEngine, name);
             }

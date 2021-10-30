@@ -75,7 +75,8 @@ namespace Quoridor.Console.Output
                         if (wallOnCell != null)
                         {
                             Write("#");
-                        } else
+                        }
+                        else
                         {
                             Write(" ");
                         }
@@ -155,14 +156,12 @@ namespace Quoridor.Console.Output
             {
                 for (int i = 0; i < wall.Start.Length; i++)
                 {
-                    
                     bool vertical = ((ToExtended(wall.Start[i].X) + ToExtended(wall.End[i].X)) / 2) == x;
                     bool horizontal = ((ToExtended(wall.Start[i].Y) + ToExtended(wall.End[i].Y)) / 2) == y;
                     bool xEqual = (x == ToExtended(wall.Start[i].X)) && (x == ToExtended(wall.End[i].X));
                     bool yEqual = (y == ToExtended(wall.Start[i].Y)) && (y == ToExtended(wall.End[i].Y));
                     if ((vertical && yEqual) || (horizontal && xEqual))
                     {
-                        
                         result = wall;
                         break;
                     }
