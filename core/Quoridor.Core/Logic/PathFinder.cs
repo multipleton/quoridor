@@ -198,6 +198,75 @@ namespace Quoridor.Core.Logic
                     }
                 }
             }
+            
+            if (j == 2 && fieldState[i, 1] == 0 && fieldState[i, 0] != 0)
+            {
+                // || 1 2
+                // []
+                if (i + 1 < 17 && fieldState[i + 1, 0] == 0)
+                {
+                    value.Add(new Point(0, (short)(x + 1)));
+                }
+                // []
+                // || 1 2
+                if (i - 2 >= 0 && fieldState[i - 1, 0] == 0)
+                {
+                    value.Add(new Point(0, (short)(x - 1)));
+                }
+            }
+            if (j == 14 && fieldState[i, 15] == 0 && fieldState[i, 16] != 0)
+            {
+                // 1 2 ||
+                //   []
+                if (i + 1 < 17 && fieldState[i + 1, 16] == 0)
+                {
+                    value.Add(new Point(16, (short)(x + 1)));
+                }
+                //   []
+                // 1 2 ||
+                if (i - 2 >= 0 && fieldState[i - 1, 16] == 0)
+                {
+                    value.Add(new Point(16, (short)(x - 1)));
+                }
+            }
+            if (i == 2 && fieldState[1, j] == 0 && fieldState[0, j] != 0)
+            {
+                // ---
+                // ---
+                // 1 []
+                // 2
+                if (j + 1 < 17 && fieldState[0, j + 1] == 0)
+                {
+                    value.Add(new Point((short)(y + 1), 0));
+                }
+                // -----
+                // -----
+                // [] 1
+                //    2
+                if (j - 2 >= 0 && fieldState[0, j - 1] == 0)
+                {
+                    value.Add(new Point((short)(y - 1), 0));
+                }
+            }
+            if (i == 14 && fieldState[15, j] == 0 && fieldState[16, j] != 0)
+            {
+                // 2
+                // 1 []
+                // ---
+                // ---
+                if (j + 1 < 17 && fieldState[16, j + 1] == 0)
+                {
+                    value.Add(new Point((short)(y + 1), 16));
+                }
+                //    2
+                // [] 1
+                // -----
+                // -----
+                if (j - 2 >= 0 && fieldState[16, j - 1] == 0)
+                {
+                    value.Add(new Point((short)(y - 1), 16));
+                }
+            }
             Point[] result = value.ToArray();
             return result;
         }
