@@ -176,7 +176,7 @@ namespace Quoridor.Console.Output
 
         private int ToExtended(int value)
         {
-            return value == 0 ? 0 : value * 2 + 1;
+            return value == 0 ? 0 + 1: value * 2 + 1;
         }
     }
 }
