@@ -198,7 +198,7 @@ namespace Quoridor.Core.Logic
                     }
                 }
             }
-            
+
             if (j == 2 && fieldState[i, 1] == 0 && fieldState[i, 0] != 0)
             {
                 // || 1 2
