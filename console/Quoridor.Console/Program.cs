@@ -79,6 +79,7 @@ namespace Quoridor.Console
 
         private static void WaitAnyKey()
         {
+            WriteLine();
             WriteLine("Press any key to continue...");
             ReadKey();
         }
