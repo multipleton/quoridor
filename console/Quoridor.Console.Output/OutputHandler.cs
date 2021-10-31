@@ -123,6 +123,7 @@ namespace Quoridor.Console.Output
             PrintSeparator();
             WriteLine("The game finished!");
             WriteLine("Winner: " + winner.Identifier);
+            WriteLine("Do you want to restart? (y/n)");
         }
 
         private void PrintSeparator()

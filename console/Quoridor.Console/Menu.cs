@@ -58,16 +58,13 @@ namespace Quoridor.Console
             {
                 case UpArrow:
                     ChangeMenuItem(false);
-                    break;
+                    return;
                 case DownArrow:
                     ChangeMenuItem(true);
-                    break;
+                    return;
                 case Enter:
                     PickMenuItem();
-                    break;
-                default:
-                    PrintMenu();
-                    break;
+                    return;
             }
         }
 
