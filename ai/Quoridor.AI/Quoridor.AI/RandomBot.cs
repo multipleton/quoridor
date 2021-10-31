@@ -37,14 +37,16 @@ namespace Quoridor.AI
             }
             else
             {
-                Point start = new Point((short)random.Next(0, 9), (short)random.Next(0, 9));
+                short startX = (short)random.Next(0, 9);
+                short startY = (short)random.Next(0, 9);
+                bool direction = random.Next(0, 2) == 0;
+                int offsetX = direction ? 0 : 1;
+                int offsetY = direction ? 1 : 0;
+                Point start = new Point(startX, startY);
                 List<Point> possibleEnds = new List<Point>();
                 possibleEnds.Add(new Point((short)(start.X + 1), start.Y));
                 possibleEnds.Add(new Point(start.X, (short)(start.Y + 1)));
                 Point end = possibleEnds[random.Next(0, possibleEnds.Count)];
-                bool direction = start.X == end.X;
-                int offsetX = direction ? 0 : 1;
-                int offsetY = direction ? 1 : 0;
                 Point[] startArray =
                 {
                     start,
