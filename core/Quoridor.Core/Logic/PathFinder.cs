@@ -71,8 +71,8 @@ namespace Quoridor.Core.Logic
         {
             fieldState = AddWallsAndPlayersToMatrix(state);
             adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
-            int x = player.Position.X;
-            int y = player.Position.Y;
+            int x = player.Position.Y;
+            int y = player.Position.X;
             int i = x * 2;
             int j = y * 2;
             List<Point> value = new List<Point>();
