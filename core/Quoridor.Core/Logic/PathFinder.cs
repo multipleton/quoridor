@@ -220,13 +220,13 @@ namespace Quoridor.Core.Logic
                 //   []
                 if (i + 1 < 17 && fieldState[i + 1, 16] == 0)
                 {
-                    value.Add(new Point(16, (short)(x + 1)));
+                    value.Add(new Point(8, (short)(x + 1)));
                 }
                 //   []
                 // 1 2 ||
                 if (i - 2 >= 0 && fieldState[i - 1, 16] == 0)
                 {
-                    value.Add(new Point(16, (short)(x - 1)));
+                    value.Add(new Point(8, (short)(x - 1)));
                 }
             }
             if (i == 2 && fieldState[1, j] == 0 && fieldState[0, j] != 0)
@@ -256,7 +256,7 @@ namespace Quoridor.Core.Logic
                 // ---
                 if (j + 1 < 17 && fieldState[16, j + 1] == 0)
                 {
-                    value.Add(new Point((short)(y + 1), 16));
+                    value.Add(new Point((short)(y + 1), 8));
                 }
                 //    2
                 // [] 1
@@ -264,7 +264,7 @@ namespace Quoridor.Core.Logic
                 // -----
                 if (j - 2 >= 0 && fieldState[16, j - 1] == 0)
                 {
-                    value.Add(new Point((short)(y - 1), 16));
+                    value.Add(new Point((short)(y - 1), 8));
                 }
             }
             Point[] result = value.ToArray();
