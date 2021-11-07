@@ -1,8 +1,7 @@
-﻿using static System.Console;
-using System;
+﻿using System;
 using Quoridor.Core.Models;
 
-namespace Quoridor.Console.Input
+namespace Quoridor.Input
 {
     public class ConsoleInputHandler : IInputHandler
     {
@@ -16,9 +15,9 @@ namespace Quoridor.Console.Input
         public void ReadInput(Action<Point> onMove, Action<Wall> onWall)
         {
             bool error = false;
-            WriteLine();
-            Write("[" + connection.Identifier + " (" + connection.PlayerId + ")] > ");
-            string command = ReadLine();
+            Console.WriteLine();
+            Console.Write("[" + connection.Identifier + " (" + connection.PlayerId + ")] > ");
+            string command = Console.ReadLine();
             var splitCommand = command.Split(new char[0]);
             switch (splitCommand[0].ToLower())
             {
@@ -34,7 +33,7 @@ namespace Quoridor.Console.Input
             }
             if (error)
             {
-                WriteLine("Invalid command!");
+                Console.WriteLine("Invalid command!");
                 ReadInput(onMove, onWall);
             }
         }

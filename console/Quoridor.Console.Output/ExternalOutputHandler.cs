@@ -1,8 +1,7 @@
 ﻿using System;
 using Quoridor.Core.Models;
-using static System.Console;
 
-namespace Quoridor.Console.Output
+namespace Quoridor.Output
 {
     public class ExternalOutputHandler : IOutputHandler
     {
@@ -41,7 +40,7 @@ namespace Quoridor.Console.Output
             {
                 throw new ArgumentException("Received invalid move!");
             }
-            WriteLine(move);
+            Console.WriteLine(move);
         }
 
         public void PrintNewConnection(Connection connection) { }

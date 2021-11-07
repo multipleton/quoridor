@@ -1,8 +1,7 @@
-﻿using static System.Console;
-using System;
+﻿using System;
 using Quoridor.Core.Models;
 
-namespace Quoridor.Console.Input
+namespace Quoridor.Input
 {
     public class ExternalInputHandler : IInputHandler
     {
@@ -15,7 +14,7 @@ namespace Quoridor.Console.Input
         public void ReadInput(Action<Point> onMove, Action<Wall> onWall)
         {
             bool error = false;
-            string command = ReadLine();
+            string command = Console.ReadLine();
             var splitCommand = command.Split(new char[0]);
             switch (splitCommand[0].ToLower())
             {

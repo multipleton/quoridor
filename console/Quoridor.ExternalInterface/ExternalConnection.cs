@@ -1,6 +1,6 @@
 ﻿using System;
-using Quoridor.Console.Input;
-using Quoridor.Console.Output;
+using Quoridor.Input;
+using Quoridor.Output;
 using Quoridor.Core;
 using Quoridor.Core.Models;
 

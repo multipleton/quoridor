@@ -1,6 +1,6 @@
 ﻿using Quoridor.Core.Models;
 
-namespace Quoridor.Console.Output
+namespace Quoridor.Output
 {
     public interface IOutputHandler
     {

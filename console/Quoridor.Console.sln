@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.Console", "Quoridor.Console\Quoridor.Console.csproj", "{5394A3BE-E40A-4B4D-B0E0-84643551775C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.Console.Input", "Quoridor.Console.Input\Quoridor.Console.Input.csproj", "{2CA4A2ED-A29C-4FF3-ADD0-0F21DCECCFD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.Input", "Quoridor.Console.Input\Quoridor.Input.csproj", "{2CA4A2ED-A29C-4FF3-ADD0-0F21DCECCFD3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.Console.Output", "Quoridor.Console.Output\Quoridor.Console.Output.csproj", "{BE75285A-04F8-4F50-BAD6-B3E6BFB8C9B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.Output", "Quoridor.Console.Output\Quoridor.Output.csproj", "{BE75285A-04F8-4F50-BAD6-B3E6BFB8C9B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.Player", "Quoridor.Player\Quoridor.Player.csproj", "{76938447-2F96-439D-8E15-ABC9EEFB4354}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.Core", "..\core\Qu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.AI", "..\ai\Quoridor.AI\Quoridor.AI\Quoridor.AI.csproj", "{4877D9B5-6889-48D8-85B9-637755677C40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quoridor.ExternalInterface", "Quoridor.ExternalInterface\Quoridor.ExternalInterface.csproj", "{9B9A2088-B138-4027-8806-D2F9A579E2C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quoridor.ExternalInterface", "Quoridor.ExternalInterface\Quoridor.ExternalInterface.csproj", "{9B9A2088-B138-4027-8806-D2F9A579E2C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

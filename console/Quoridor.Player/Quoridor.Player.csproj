@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\core\Quoridor.Core\Quoridor.Core.csproj" />
-    <ProjectReference Include="..\Quoridor.Console.Input\Quoridor.Console.Input.csproj" />
-    <ProjectReference Include="..\Quoridor.Console.Output\Quoridor.Console.Output.csproj" />
+    <ProjectReference Include="..\Quoridor.Console.Input\Quoridor.Input.csproj" />
+    <ProjectReference Include="..\Quoridor.Console.Output\Quoridor.Output.csproj" />
   </ItemGroup>
 
 </Project>
