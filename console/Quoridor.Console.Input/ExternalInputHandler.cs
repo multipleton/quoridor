@@ -6,6 +6,12 @@ namespace Quoridor.Console.Input
 {
     public class ExternalInputHandler
     {
+        private enum ParsingType
+        {
+            POINT,
+            CROSSING,
+        }
+
         public void ReadInput(Action<Point> onMove, Action<Point[], Point[]> onWall)
         {
             bool error = false;
@@ -32,7 +38,7 @@ namespace Quoridor.Console.Input
         private bool HandleMove(string[] command, Action<Point> onMove)
         {
             if (command.Length != 2) return false;
-            Point point = ParsePoint(command[1]);
+            Point point = Parse(command[1], ParsingType.POINT);
             if (point == null) return false;
             onMove(point);
             return true;
@@ -44,7 +50,7 @@ namespace Quoridor.Console.Input
             if (command[1].Length != 3) return false;
             string position = command[1].Substring(0, 2);
             string type = command[1].Substring(2, 1);
-            Point crossing = ParseCrossing(position);
+            Point crossing = Parse(position, ParsingType.CROSSING);
             if (crossing == null) return false;
             int offsetX = type == "h" ? 1 : 0;
             int offsetY = type == "v" ? 1 : 0;
@@ -62,26 +68,19 @@ namespace Quoridor.Console.Input
             return true;
         }
 
-        private Point ParsePoint(string input)
+        private Point Parse(string input, ParsingType parsingType)
         {
-            string horizontalNaming = "ABCDEFGHI";
-            int x = horizontalNaming.IndexOf(char.ToUpper(input[0]));
-            int y;
-            try
+            string horizontalNaming;
+            switch (parsingType)
             {
-                y = int.Parse(input[1].ToString()) - 1;
+                default:
+                case ParsingType.POINT:
+                    horizontalNaming = "ABCDEFGHI";
+                    break;
+                case ParsingType.CROSSING:
+                    horizontalNaming = "STUVWXYZ";
+                    break;
             }
-            catch (Exception)
-            {
-                return null;
-            }
-            if (y == -1) return null;
-            return new Point((short)x, (short)y);
-        }
-
-        private Point ParseCrossing(string input)
-        {
-            string horizontalNaming = "STUVWXYZ";
             int x = horizontalNaming.IndexOf(char.ToUpper(input[0]));
             int y;
             try

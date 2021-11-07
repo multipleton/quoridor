@@ -14,7 +14,7 @@ namespace Quoridor.ExternalInterface
 
         public ExternalConnection(GameEngine gameEngine) : base("External")
         {
-            this.externalInputHandler = new ExternalInputHandler();
+            externalInputHandler = new ExternalInputHandler();
             onInputMove = point => gameEngine.MakeMove(point);
             onInputWall = (start, end) => gameEngine.MakeMove(start, end);
         }
