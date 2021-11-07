@@ -1,35 +1,35 @@
-﻿using static System.Console;
+﻿using System;
 using System.Text;
 using Quoridor.Core.Models;
 
-namespace Quoridor.Console.Output
+namespace Quoridor.Output
 {
-    public class OutputHandler
+    public class ConsoleOutputHandler : IOutputHandler
     {
         private readonly Connection connection;
 
-        public OutputHandler(Connection connection)
+        public ConsoleOutputHandler(Connection connection)
         {
             this.connection = connection;
-            OutputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
         }
 
         public void PrintConnected()
         {
             PrintSeparator();
-            WriteLine("You are successfully connected to the game");
+            Console.WriteLine("You are successfully connected to the game");
         }
 
         public void PrintNewConnection(Connection connection)
         {
             PrintSeparator();
-            WriteLine("New player connected to the game: " + connection.Identifier);
+            Console.WriteLine("New player connected to the game: " + connection.Identifier);
         }
 
         public void PrintStart(Connection connection)
         {
             PrintSeparator();
-            WriteLine("Waiting for move from: " + connection.Identifier);
+            Console.WriteLine("Waiting for move from: " + connection.Identifier);
         }
 
         public void PrintUpdate(State state)
@@ -37,36 +37,36 @@ namespace Quoridor.Console.Output
             PrintSeparator();
             string verticalNaming = "ABCDEFGHI";
             string offset = "   ";
-            Write(offset);
+            Console.Write(offset);
             for (int i = 1; i < 18; i++)
             {
                 if (i % 2 == 0)
                 {
-                    Write(" ");
+                    Console.Write(" ");
                 }
                 else
                 {
-                    Write((i - 1) / 2);
+                    Console.Write((i - 1) / 2);
                 }
             }
-            WriteLine();
-            Write(offset);
+            Console.WriteLine();
+            Console.Write(offset);
             for (int i = 0; i < 17; i++)
             {
-                Write("-");
+                Console.Write("-");
             }
-            WriteLine();
+            Console.WriteLine();
             for (int i = 1; i < 18; i++)
             {
                 if (i % 2 == 0)
                 {
-                    Write(" ");
+                    Console.Write(" ");
                 }
                 else
                 {
-                    Write(verticalNaming[(i - 1) / 2]);
+                    Console.Write(verticalNaming[(i - 1) / 2]);
                 }
-                Write(" |");
+                Console.Write(" |");
                 for (int j = 1; j < 18; j++)
                 {
                     if (j % 2 == 0 || i % 2 == 0)
@@ -74,11 +74,11 @@ namespace Quoridor.Console.Output
                         Wall wallOnCell = GetWallOnCell(state, j, i);
                         if (wallOnCell != null)
                         {
-                            Write("#");
+                            Console.Write("#");
                         }
                         else
                         {
-                            Write(" ");
+                            Console.Write(" ");
                         }
                     }
                     else
@@ -86,50 +86,50 @@ namespace Quoridor.Console.Output
                         Player playerOnCell = GetPlayerOnCell(state, j, i);
                         if (playerOnCell != null)
                         {
-                            Write(playerOnCell.Id);
+                            Console.Write(playerOnCell.Id);
                         }
                         else
                         {
-                            Write("□");
+                            Console.Write("□");
                         }
                     }
                 }
-                Write("|");
-                WriteLine();
+                Console.Write("|");
+                Console.WriteLine();
             }
-            Write(offset);
+            Console.Write(offset);
             for (int i = 0; i < 17; i++)
             {
-                Write("-");
+                Console.Write("-");
             }
-            WriteLine();
+            Console.WriteLine();
         }
 
-        public void PrintMove(Connection previous, Connection current)
+        public void PrintMove(Connection previous, Connection current, Point point, Wall wall)
         {
             PrintSeparator();
-            WriteLine("Move accepted from: " + previous.Identifier);
-            WriteLine("Waiting for move from: " + current.Identifier);
+            Console.WriteLine("Move accepted from: " + previous.Identifier);
+            Console.WriteLine("Waiting for move from: " + current.Identifier);
         }
 
         public void PrintInvalidMove()
         {
             PrintSeparator();
-            WriteLine("Invalid move! Try again.");
+            Console.WriteLine("Invalid move! Try again.");
         }
 
         public void PrintFinish(Connection winner)
         {
             PrintSeparator();
-            WriteLine("The game finished!");
-            WriteLine("Winner: " + winner.Identifier);
+            Console.WriteLine("The game finished!");
+            Console.WriteLine("Winner: " + winner.Identifier);
         }
 
         private void PrintSeparator()
         {
-            WriteLine();
-            WriteLine();
-            WriteLine("[" + connection.Identifier + "]:");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("[" + connection.Identifier + "]:");
         }
 
         private Player GetPlayerOnCell(State state, int x, int y)

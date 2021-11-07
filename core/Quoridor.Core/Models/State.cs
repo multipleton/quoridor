@@ -8,8 +8,8 @@ namespace Quoridor.Core.Models
         private const short TOTAL_WALLS = 20;
         private readonly Point[] PLAYER_STARTUP_POSITIONS =
         {
-            new Point(4, 0),
             new Point(4, 8),
+            new Point(4, 0),
             new Point(0, 4),
             new Point(8, 4),
         };
@@ -60,13 +60,12 @@ namespace Quoridor.Core.Models
             return result;
         }
 
-        public void AddWall(Point[] start, Point[] end)
+        public void AddWall(Wall wall)
         {
             if (walls.Count == TOTAL_WALLS)
             {
                 throw new WallLimitReachedException(TOTAL_WALLS);
             }
-            Wall wall = new Wall(start, end);
             walls.Add(wall);
         }
     }

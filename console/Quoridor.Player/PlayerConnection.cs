@@ -1,25 +1,25 @@
 ﻿using System;
 using Quoridor.Core;
 using Quoridor.Core.Models;
-using Quoridor.Console.Input;
-using Quoridor.Console.Output;
+using Quoridor.Input;
+using Quoridor.Output;
 
 namespace Quoridor.Player
 {
     public class PlayerConnection : Connection
     {
-        private readonly InputHandler inputHandler;
-        private readonly OutputHandler outputHandler;
+        private readonly IInputHandler inputHandler;
+        private readonly IOutputHandler outputHandler;
 
         private readonly Action<Point> onInputMove;
-        private readonly Action<Point[], Point[]> onInputWall;
+        private readonly Action<Wall> onInputWall;
 
         public PlayerConnection(GameEngine gameEngine, string identifier = "Player") : base(identifier)
         {
-            inputHandler = new InputHandler(this);
-            outputHandler = new OutputHandler(this);
+            inputHandler = new ConsoleInputHandler(this);
+            outputHandler = new ConsoleOutputHandler(this);
             onInputMove = point => gameEngine.MakeMove(point);
-            onInputWall = (start, end) => gameEngine.MakeMove(start, end);
+            onInputWall = wall => gameEngine.MakeMove(wall);
         }
 
         public override void OnConnected()
@@ -53,9 +53,9 @@ namespace Quoridor.Player
             OnWaitingForMove(); // TODO: move it to gameEngine OnInvalidMove call
         }
 
-        public override void OnMove(Connection previous, Connection current)
+        public override void OnMove(Connection previous, Connection current, Point point, Wall wall)
         {
-            outputHandler.PrintMove(previous, current);
+            outputHandler.PrintMove(previous, current, point, wall);
         }
 
         public override void OnFinish(Connection winner)

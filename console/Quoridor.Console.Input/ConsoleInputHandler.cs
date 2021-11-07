@@ -1,24 +1,23 @@
-﻿using static System.Console;
-using System;
+﻿using System;
 using Quoridor.Core.Models;
 
-namespace Quoridor.Console.Input
+namespace Quoridor.Input
 {
-    public class InputHandler
+    public class ConsoleInputHandler : IInputHandler
     {
         private readonly Connection connection;
 
-        public InputHandler(Connection connection)
+        public ConsoleInputHandler(Connection connection)
         {
             this.connection = connection;
         }
 
-        public void ReadInput(Action<Point> onMove, Action<Point[], Point[]> onWall)
+        public void ReadInput(Action<Point> onMove, Action<Wall> onWall)
         {
             bool error = false;
-            WriteLine();
-            Write("[" + connection.Identifier + " (" + connection.PlayerId + ")] > ");
-            string command = ReadLine();
+            Console.WriteLine();
+            Console.Write("[" + connection.Identifier + " (" + connection.PlayerId + ")] > ");
+            string command = Console.ReadLine();
             var splitCommand = command.Split(new char[0]);
             switch (splitCommand[0].ToLower())
             {
@@ -34,7 +33,7 @@ namespace Quoridor.Console.Input
             }
             if (error)
             {
-                WriteLine("Invalid command!");
+                Console.WriteLine("Invalid command!");
                 ReadInput(onMove, onWall);
             }
         }
@@ -48,7 +47,7 @@ namespace Quoridor.Console.Input
             return true;
         }
 
-        private bool HandleWall(string[] command, Action<Point[], Point[]> onWall)
+        private bool HandleWall(string[] command, Action<Wall> onWall)
         {
             if (command.Length != 5) return false;
             Point[] start =
@@ -65,7 +64,8 @@ namespace Quoridor.Console.Input
             {
                 if (start[i] == null || end[i] == null) return false;
             }
-            onWall(start, end);
+            Wall wall = new Wall(start, end);
+            onWall(wall);
             return true;
         }
 

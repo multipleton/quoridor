@@ -11,7 +11,7 @@ namespace Quoridor.AI
         private readonly GameEngine gameEngine;
         private State state;
 
-        public RandomBot(GameEngine gameEngine) : base("Bot")
+        public RandomBot(GameEngine gameEngine) : base("Random Bot")
         {
             random = new Random();
             this.gameEngine = gameEngine;
@@ -57,7 +57,8 @@ namespace Quoridor.AI
                     end,
                     new Point((short)(end.X + offsetX), (short)(end.Y + offsetY))
                 };
-                gameEngine.MakeMove(startArray, endArray);
+                Wall wall = new Wall(startArray, endArray);
+                gameEngine.MakeMove(wall);
             }
         }
 
@@ -76,7 +77,7 @@ namespace Quoridor.AI
             }
         }
 
-        public override void OnMove(Connection previous, Connection current) { }
+        public override void OnMove(Connection previous, Connection current, Point point, Wall wall) { }
 
         public override void OnNewConnection(Connection connection) { }
 

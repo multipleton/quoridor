@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ai\Quoridor.AI\Quoridor.AI\Quoridor.AI.csproj" />
     <ProjectReference Include="..\..\core\Quoridor.Core\Quoridor.Core.csproj" />
+    <ProjectReference Include="..\Quoridor.ExternalInterface\Quoridor.ExternalInterface.csproj" />
     <ProjectReference Include="..\Quoridor.Player\Quoridor.Player.csproj" />
   </ItemGroup>
 

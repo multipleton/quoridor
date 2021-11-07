@@ -59,7 +59,7 @@ namespace Quoridor.Core.Logic
         public Point[] GetPlayerWinPositions(int index)
         {
             List<Point> positions = new List<Point>();
-            int y = index == 0 ? 8 : 0;
+            int y = index == 0 ? 0 : 8;
             for (int i = 0; i < 9; i++)
             {
                 positions.Add(new Point((short)i, (short)y));
@@ -276,8 +276,8 @@ namespace Quoridor.Core.Logic
             fieldState = AddWallsAndPlayersToMatrix(state, wall);
             adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
             Player[] players = state.Players;
-            int[] firstWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
-            int[] secondWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+            int[] firstWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+            int[] secondWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
             marked = new int[81];
             int x = players[0].Position.Y;
             int y = players[0].Position.X;
