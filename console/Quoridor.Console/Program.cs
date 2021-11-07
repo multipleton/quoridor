@@ -75,11 +75,11 @@ namespace Quoridor.Console
             if (color.ToLower() == "black")
             {
                 first = new ExternalConnection(gameEngine);
-                second = new RandomBot(gameEngine); // Replace with improved bot
+                second = new ImprovedBot(gameEngine);
             }
             else if (color.ToLower() == "white")
             {
-                first = new RandomBot(gameEngine); // Replace with improved bot
+                first = new ImprovedBot(gameEngine);
                 second = new ExternalConnection(gameEngine);
             }
             else

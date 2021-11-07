@@ -11,7 +11,7 @@ namespace Quoridor.AI
         private readonly GameEngine gameEngine;
         private State state;
 
-        public RandomBot(GameEngine gameEngine) : base("Bot")
+        public RandomBot(GameEngine gameEngine) : base("Random Bot")
         {
             random = new Random();
             this.gameEngine = gameEngine;
