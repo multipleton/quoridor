@@ -73,12 +73,12 @@ namespace Quoridor.Console
             Connection second;
             Write("-> ");
             string color = ReadLine();
-            if (color == "black")
+            if (color.ToLower() == "black")
             {
                 first =  new RandomBot(gameEngine); // Replace with improved bot
                 second = new ExternalConnection(gameEngine);
             }
-            else if (color == "white")
+            else if (color.ToLower() == "white")
             {
                 first = new ExternalConnection(gameEngine);
                 second = new RandomBot(gameEngine); // Replace with improved bot
