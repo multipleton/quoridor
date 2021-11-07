@@ -4,7 +4,7 @@ using Quoridor.Core.Models;
 
 namespace Quoridor.Console.Input
 {
-    public class ExternalInputHandler
+    public class ExternalInputHandler : IInputHandler
     {
         private enum ParsingType
         {
@@ -15,6 +15,7 @@ namespace Quoridor.Console.Input
         public void ReadInput(Action<Point> onMove, Action<Point[], Point[]> onWall)
         {
             bool error = false;
+            Write("-> ");
             string command = ReadLine();
             var splitCommand = command.Split(new char[0]);
             switch (splitCommand[0].ToLower())

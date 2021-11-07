@@ -7,14 +7,14 @@ namespace Quoridor.ExternalInterface
 {
     public class ExternalConnection : Connection
     {
-        private readonly ExternalInputHandler externalInputHandler;
+        private readonly IInputHandler inputHandler;
 
         private readonly Action<Point> onInputMove;
         private readonly Action<Point[], Point[]> onInputWall;
 
         public ExternalConnection(GameEngine gameEngine) : base("External")
         {
-            externalInputHandler = new ExternalInputHandler();
+            inputHandler = new ExternalInputHandler();
             onInputMove = point => gameEngine.MakeMove(point);
             onInputWall = (start, end) => gameEngine.MakeMove(start, end);
         }
@@ -35,7 +35,7 @@ namespace Quoridor.ExternalInterface
 
         public override void OnWaitingForMove()
         {
-            externalInputHandler.ReadInput(onInputMove, onInputWall);
+            inputHandler.ReadInput(onInputMove, onInputWall);
         }
     }
 }

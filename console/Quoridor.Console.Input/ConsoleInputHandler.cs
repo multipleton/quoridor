@@ -4,11 +4,11 @@ using Quoridor.Core.Models;
 
 namespace Quoridor.Console.Input
 {
-    public class InputHandler
+    public class ConsoleInputHandler : IInputHandler
     {
         private readonly Connection connection;
 
-        public InputHandler(Connection connection)
+        public ConsoleInputHandler(Connection connection)
         {
             this.connection = connection;
         }

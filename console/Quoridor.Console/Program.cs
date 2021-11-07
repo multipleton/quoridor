@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using Quoridor.Core;
+using Quoridor.Core.Models;
 using Quoridor.Player;
 using Quoridor.AI;
+using Quoridor.ExternalInterface;
 
 namespace Quoridor.Console
 {
@@ -26,7 +28,15 @@ namespace Quoridor.Console
 
         static void Main(string[] args)
         {
-            menu.Show();
+
+            if (args.Length > 0 && args[0] == "--external")
+            {
+                StartAvA();
+            }
+            else
+            {
+                menu.Show();
+            }
         }
 
         private static void StartPvP()
@@ -54,6 +64,32 @@ namespace Quoridor.Console
             RandomBot randomBot = new RandomBot(gameEngine);
             gameEngine.Connect(playerConnection);
             gameEngine.Connect(randomBot);
+            gameEngine.Start();
+        }
+
+        private static void StartAvA()
+        {
+            gameEngine.Initialize(2);
+            Connection first;
+            Connection second;
+            Write("-> ");
+            string color = ReadLine();
+            if (color == "black")
+            {
+                first =  new RandomBot(gameEngine); // Replace with improved bot
+                second = new ExternalConnection(gameEngine);
+            }
+            else if (color == "white")
+            {
+                first = new ExternalConnection(gameEngine);
+                second = new RandomBot(gameEngine); // Replace with improved bot
+            }
+            else
+            {
+                throw new ArgumentException("Invalid color!");
+            }
+            gameEngine.Connect(first);
+            gameEngine.Connect(second);
             gameEngine.Start();
         }
 

@@ -8,7 +8,7 @@ namespace Quoridor.Player
 {
     public class PlayerConnection : Connection
     {
-        private readonly InputHandler inputHandler;
+        private readonly IInputHandler inputHandler;
         private readonly OutputHandler outputHandler;
 
         private readonly Action<Point> onInputMove;
@@ -16,7 +16,7 @@ namespace Quoridor.Player
 
         public PlayerConnection(GameEngine gameEngine, string identifier = "Player") : base(identifier)
         {
-            inputHandler = new InputHandler(this);
+            inputHandler = new ConsoleInputHandler(this);
             outputHandler = new OutputHandler(this);
             onInputMove = point => gameEngine.MakeMove(point);
             onInputWall = (start, end) => gameEngine.MakeMove(start, end);
