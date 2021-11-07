@@ -6,20 +6,20 @@ namespace Quoridor.Console.Input
 {
     public class ExternalInputHandler : IInputHandler
     {
-        private enum ParsingType
+        private enum ParseType
         {
-            POINT,
+            CELL,
             CROSSING,
         }
 
         public void ReadInput(Action<Point> onMove, Action<Wall> onWall)
         {
             bool error = false;
-            Write("-> ");
             string command = ReadLine();
             var splitCommand = command.Split(new char[0]);
             switch (splitCommand[0].ToLower())
             {
+                case "jump":
                 case "move":
                     error = !HandleMove(splitCommand, onMove);
                     break;
@@ -39,7 +39,7 @@ namespace Quoridor.Console.Input
         private bool HandleMove(string[] command, Action<Point> onMove)
         {
             if (command.Length != 2) return false;
-            Point point = Parse(command[1], ParsingType.POINT);
+            Point point = Parse(command[1], ParseType.CELL);
             if (point == null) return false;
             onMove(point);
             return true;
@@ -51,7 +51,7 @@ namespace Quoridor.Console.Input
             if (command[1].Length != 3) return false;
             string position = command[1].Substring(0, 2);
             string type = command[1].Substring(2, 1);
-            Point crossing = Parse(position, ParsingType.CROSSING);
+            Point crossing = Parse(position, ParseType.CROSSING);
             if (crossing == null) return false;
             int offsetX = type == "h" ? 1 : 0;
             int offsetY = type == "v" ? 1 : 0;
@@ -70,16 +70,16 @@ namespace Quoridor.Console.Input
             return true;
         }
 
-        private Point Parse(string input, ParsingType parsingType)
+        private Point Parse(string input, ParseType parsingType)
         {
             string horizontalNaming;
             switch (parsingType)
             {
                 default:
-                case ParsingType.POINT:
+                case ParseType.CELL:
                     horizontalNaming = "ABCDEFGHI";
                     break;
-                case ParsingType.CROSSING:
+                case ParseType.CROSSING:
                     horizontalNaming = "STUVWXYZ";
                     break;
             }

@@ -8,8 +8,8 @@ namespace Quoridor.Core.Models
         private const short TOTAL_WALLS = 20;
         private readonly Point[] PLAYER_STARTUP_POSITIONS =
         {
-            new Point(4, 0),
             new Point(4, 8),
+            new Point(4, 0),
             new Point(0, 4),
             new Point(8, 4),
         };
