@@ -13,7 +13,7 @@ namespace Quoridor.Console.Input
             this.connection = connection;
         }
 
-        public void ReadInput(Action<Point> onMove, Action<Point[], Point[]> onWall)
+        public void ReadInput(Action<Point> onMove, Action<Wall> onWall)
         {
             bool error = false;
             WriteLine();
@@ -48,7 +48,7 @@ namespace Quoridor.Console.Input
             return true;
         }
 
-        private bool HandleWall(string[] command, Action<Point[], Point[]> onWall)
+        private bool HandleWall(string[] command, Action<Wall> onWall)
         {
             if (command.Length != 5) return false;
             Point[] start =
@@ -65,7 +65,8 @@ namespace Quoridor.Console.Input
             {
                 if (start[i] == null || end[i] == null) return false;
             }
-            onWall(start, end);
+            Wall wall = new Wall(start, end);
+            onWall(wall);
             return true;
         }
 

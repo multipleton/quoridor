@@ -12,7 +12,7 @@ namespace Quoridor.Console.Input
             CROSSING,
         }
 
-        public void ReadInput(Action<Point> onMove, Action<Point[], Point[]> onWall)
+        public void ReadInput(Action<Point> onMove, Action<Wall> onWall)
         {
             bool error = false;
             Write("-> ");
@@ -45,7 +45,7 @@ namespace Quoridor.Console.Input
             return true;
         }
 
-        private bool HandleWall(string[] command, Action<Point[], Point[]> onWall)
+        private bool HandleWall(string[] command, Action<Wall> onWall)
         {
             if (command.Length != 2) return false;
             if (command[1].Length != 3) return false;
@@ -65,7 +65,8 @@ namespace Quoridor.Console.Input
                 new Point((short)(crossing.X + offsetY), (short)(crossing.Y + offsetX)),
                 new Point((short)(crossing.X + 1), (short)(crossing.Y + 1)),
             };
-            onWall(start, end);
+            Wall wall = new Wall(start, end);
+            onWall(wall);
             return true;
         }
 

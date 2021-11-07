@@ -1,5 +1,6 @@
 ﻿using System;
 using Quoridor.Console.Input;
+using Quoridor.Console.Output;
 using Quoridor.Core;
 using Quoridor.Core.Models;
 
@@ -8,15 +9,17 @@ namespace Quoridor.ExternalInterface
     public class ExternalConnection : Connection
     {
         private readonly IInputHandler inputHandler;
+        private readonly IOutputHandler outputHandler;
 
         private readonly Action<Point> onInputMove;
-        private readonly Action<Point[], Point[]> onInputWall;
+        private readonly Action<Wall> onInputWall;
 
         public ExternalConnection(GameEngine gameEngine) : base("External")
         {
             inputHandler = new ExternalInputHandler();
+            outputHandler = new ExternalOutputHandler(this);
             onInputMove = point => gameEngine.MakeMove(point);
-            onInputWall = (start, end) => gameEngine.MakeMove(start, end);
+            onInputWall = wall => gameEngine.MakeMove(wall);
         }
 
         public override void OnConnected() { }
@@ -25,7 +28,10 @@ namespace Quoridor.ExternalInterface
 
         public override void OnInvalidMove() { }
 
-        public override void OnMove(Connection previous, Connection current) { }
+        public override void OnMove(Connection previous, Connection current, Point point, Wall wall)
+        {
+            outputHandler.PrintMove(previous, current, point, wall);
+        }
 
         public override void OnNewConnection(Connection connection) { }
 

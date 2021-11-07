@@ -4,11 +4,11 @@ using Quoridor.Core.Models;
 
 namespace Quoridor.Console.Output
 {
-    public class OutputHandler
+    public class ConsoleOutputHandler : IOutputHandler
     {
         private readonly Connection connection;
 
-        public OutputHandler(Connection connection)
+        public ConsoleOutputHandler(Connection connection)
         {
             this.connection = connection;
             OutputEncoding = Encoding.UTF8;
@@ -105,7 +105,7 @@ namespace Quoridor.Console.Output
             WriteLine();
         }
 
-        public void PrintMove(Connection previous, Connection current)
+        public void PrintMove(Connection previous, Connection current, Point point, Wall wall)
         {
             PrintSeparator();
             WriteLine("Move accepted from: " + previous.Identifier);

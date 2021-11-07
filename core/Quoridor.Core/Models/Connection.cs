@@ -36,7 +36,7 @@ namespace Quoridor.Core.Models
 
         public abstract void OnInvalidMove();
 
-        public abstract void OnMove(Connection previous, Connection current);
+        public abstract void OnMove(Connection previous, Connection current, Point point, Wall wall);
 
         public abstract void OnFinish(Connection winner);
     }

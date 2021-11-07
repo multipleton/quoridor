@@ -5,6 +5,6 @@ namespace Quoridor.Console.Input
 {
     public interface IInputHandler
     {
-        public void ReadInput(Action<Point> onMove, Action<Point[], Point[]> onWall);
+        public void ReadInput(Action<Point> onMove, Action<Wall> onWall);
     }
 }
