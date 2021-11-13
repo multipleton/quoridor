@@ -30,7 +30,7 @@ namespace Quoridor.Output
             string move;
             if (point != null)
             {
-                move = "move " + StringifyPoint(point, StringifyType.CELL);
+                move = GetMoveType(oldPoint, point) + " " + StringifyPoint(point, StringifyType.CELL);
             }
             else if (wall != null)
             {
@@ -74,6 +74,15 @@ namespace Quoridor.Output
             result += StringifyPoint(wall.Start[0], StringifyType.CROSSING);
             result += wall.Start[0].Y == wall.Start[1].Y ? "h" : "v";
             return result;
+        }
+
+        private string GetMoveType(Point oldPoint, Point point)
+        {
+            bool verticalSimple = oldPoint.X == point.X && Math.Abs(oldPoint.Y - point.Y) == 1;
+            bool horizontalSimple = Math.Abs(oldPoint.X - point.X) == 1 && oldPoint.Y == point.Y;
+            return verticalSimple || horizontalSimple
+                ? "move"
+                : "jump";
         }
     }
 }
