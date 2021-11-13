@@ -12,7 +12,7 @@ namespace Quoridor.Output
 
         public void PrintUpdate(State state);
 
-        public void PrintMove(Connection previous, Connection current, Point point, Wall wall);
+        public void PrintMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall);
         public void PrintInvalidMove();
 
         public void PrintFinish(Connection winner);

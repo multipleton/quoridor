@@ -28,9 +28,9 @@ namespace Quoridor.ExternalInterface
 
         public override void OnInvalidMove() { }
 
-        public override void OnMove(Connection previous, Connection current, Point point, Wall wall)
+        public override void OnMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall)
         {
-            outputHandler.PrintMove(previous, current, point, wall);
+            outputHandler.PrintMove(previous, current, oldPoint, point, wall);
         }
 
         public override void OnNewConnection(Connection connection) { }

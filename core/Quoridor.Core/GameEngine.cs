@@ -72,6 +72,7 @@ namespace Quoridor.Core
             Player player = connection.Player;
             if (IsValidMove(point))
             {
+                Point oldPoint = player.Position;
                 player.Move(point);
                 if (IsPlayerWin(player))
                 {
@@ -81,7 +82,7 @@ namespace Quoridor.Core
                 {
                     NextConnection();
                     connections.ForEach(entry =>
-                        entry.OnMove(connection, CurrentConnection, point, null));
+                        entry.OnMove(connection, CurrentConnection, oldPoint, point, null));
                     connections.ForEach(entry => entry.OnUpdate(state));
                     CurrentConnection.OnWaitingForMove();
                 }
@@ -102,7 +103,7 @@ namespace Quoridor.Core
                 state.AddWall(wall);
                 NextConnection();
                 connections.ForEach(entry => entry
-                    .OnMove(connection, CurrentConnection, null, wall));
+                    .OnMove(connection, CurrentConnection, null, null, wall));
                 connections.ForEach(entry => entry.OnUpdate(state));
                 CurrentConnection.OnWaitingForMove();
             }

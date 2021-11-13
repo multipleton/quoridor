@@ -24,7 +24,7 @@ namespace Quoridor.Output
 
         public void PrintInvalidMove() { }
 
-        public void PrintMove(Connection previous, Connection current, Point point, Wall wall)
+        public void PrintMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall)
         {
             if (previous == connection) return;
             string move;

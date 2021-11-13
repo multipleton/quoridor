@@ -9,7 +9,7 @@ namespace Quoridor.Core.Models
         private int wallsCount;
 
         public int Id => id;
-        public Point Position => position;
+        public Point Position => new Point(position.X, position.Y);
         public int WallsCount => wallsCount;
 
         public Player(int id, Point position, int wallsCount)
@@ -21,8 +21,8 @@ namespace Quoridor.Core.Models
 
         public void Move(Point point)
         {
-            Position.X = point.X;
-            Position.Y = point.Y;
+            position.X = point.X;
+            position.Y = point.Y;
         }
 
         public bool ReduceWallsCount()

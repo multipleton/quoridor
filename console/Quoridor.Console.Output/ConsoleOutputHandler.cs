@@ -105,8 +105,10 @@ namespace Quoridor.Output
             Console.WriteLine();
         }
 
-        public void PrintMove(Connection previous, Connection current, Point point, Wall wall)
+        public void PrintMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall)
         {
+            Console.WriteLine(oldPoint);
+            Console.WriteLine(point);
             PrintSeparator();
             Console.WriteLine("Move accepted from: " + previous.Identifier);
             Console.WriteLine("Waiting for move from: " + current.Identifier);

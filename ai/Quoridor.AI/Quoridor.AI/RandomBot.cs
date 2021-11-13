@@ -76,7 +76,7 @@ namespace Quoridor.AI
             }
         }
 
-        public override void OnMove(Connection previous, Connection current, Point point, Wall wall) { }
+        public override void OnMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall) { }
 
         public override void OnNewConnection(Connection connection) { }
 
