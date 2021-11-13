@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 
 namespace Quoridor.Core.Models
 {
@@ -26,6 +27,11 @@ namespace Quoridor.Core.Models
         public override int GetHashCode()
         {
             return HashCode.Combine(x, y);
+        }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Quoridor.AI
             throw new System.NotImplementedException();
         }
 
-        public override void OnMove(Connection previous, Connection current, Point point, Wall wall)
+        public override void OnMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall)
         {
             throw new System.NotImplementedException();
         }

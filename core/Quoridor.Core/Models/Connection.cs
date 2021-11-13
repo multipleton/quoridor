@@ -5,23 +5,23 @@ namespace Quoridor.Core.Models
     public abstract class Connection
     {
         private readonly string identifier;
-        private int playerId;
+        private Player player;
 
         public string Identifier => identifier;
-        public int PlayerId
+        public Player Player
         {
-            get => playerId;
+            get => player;
             set
             {
-                if (playerId != -1) throw new InvalidOSPOperationException("playerId");
-                playerId = value;
+                if (player != null) throw new InvalidOSPOperationException("player");
+                player = value;
             }
         }
 
         public Connection(string identifier)
         {
             this.identifier = identifier;
-            playerId = -1;
+            player = null;
         }
 
         public abstract void OnConnected();
@@ -36,7 +36,7 @@ namespace Quoridor.Core.Models
 
         public abstract void OnInvalidMove();
 
-        public abstract void OnMove(Connection previous, Connection current, Point point, Wall wall);
+        public abstract void OnMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall);
 
         public abstract void OnFinish(Connection winner);
     }

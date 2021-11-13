@@ -50,7 +50,7 @@ namespace Quoridor.Core
         public void Connect(Connection connection)
         {
             if (gameFinished) throw new GameFinishedException();
-            connection.PlayerId = state.AddPlayer();
+            connection.Player = state.AddPlayer();
             connections.ForEach(entry => entry.OnNewConnection(connection));
             connections.Add(connection);
             connection.OnConnected();
@@ -69,9 +69,10 @@ namespace Quoridor.Core
         {
             if (gameFinished) throw new GameFinishedException();
             Connection connection = CurrentConnection;
-            Player player = state.GetPlayer(connection.PlayerId);
+            Player player = connection.Player;
             if (IsValidMove(point))
             {
+                Point oldPoint = player.Position;
                 player.Move(point);
                 if (IsPlayerWin(player))
                 {
@@ -81,7 +82,7 @@ namespace Quoridor.Core
                 {
                     NextConnection();
                     connections.ForEach(entry =>
-                        entry.OnMove(connection, CurrentConnection, point, null));
+                        entry.OnMove(connection, CurrentConnection, oldPoint, point, null));
                     connections.ForEach(entry => entry.OnUpdate(state));
                     CurrentConnection.OnWaitingForMove();
                 }
@@ -96,13 +97,13 @@ namespace Quoridor.Core
         {
             if (gameFinished) throw new GameFinishedException();
             Connection connection = CurrentConnection;
-            Player player = state.GetPlayer(connection.PlayerId);
+            Player player = connection.Player;
             if (IsValidMove(wall) && player.ReduceWallsCount())
             {
                 state.AddWall(wall);
                 NextConnection();
                 connections.ForEach(entry => entry
-                    .OnMove(connection, CurrentConnection, null, wall));
+                    .OnMove(connection, CurrentConnection, null, null, wall));
                 connections.ForEach(entry => entry.OnUpdate(state));
                 CurrentConnection.OnWaitingForMove();
             }
@@ -137,7 +138,7 @@ namespace Quoridor.Core
 
         private bool IsValidMove(Point point)
         {
-            Player player = state.GetPlayer(CurrentConnection.PlayerId);
+            Player player = CurrentConnection.Player;
             Point[] availableMoves = pathFinder.GetAvailableMoves(state, player);
             foreach (var position in availableMoves)
             {

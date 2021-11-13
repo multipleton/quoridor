@@ -1,4 +1,6 @@
-﻿namespace Quoridor.Core.Models
+﻿using System.Text.Json;
+
+namespace Quoridor.Core.Models
 {
     public class Player
     {
@@ -7,7 +9,7 @@
         private int wallsCount;
 
         public int Id => id;
-        public Point Position => position;
+        public Point Position => new Point(position.X, position.Y);
         public int WallsCount => wallsCount;
 
         public Player(int id, Point position, int wallsCount)
@@ -19,8 +21,8 @@
 
         public void Move(Point point)
         {
-            Position.X = point.X;
-            Position.Y = point.Y;
+            position.X = point.X;
+            position.Y = point.Y;
         }
 
         public bool ReduceWallsCount()
@@ -31,6 +33,11 @@
                 return true;
             }
             return false;
+        }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
         }
     }
 }

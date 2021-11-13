@@ -16,7 +16,7 @@ namespace Quoridor.Input
         {
             bool error = false;
             Console.WriteLine();
-            Console.Write("[" + connection.Identifier + " (" + connection.PlayerId + ")] > ");
+            Console.Write("[" + connection.Identifier + " (" + connection.Player.Id + ")] > ");
             string command = Console.ReadLine();
             var splitCommand = command.Split(new char[0]);
             switch (splitCommand[0].ToLower())

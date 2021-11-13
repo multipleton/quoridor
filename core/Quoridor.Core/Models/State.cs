@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using Quoridor.Core.Exceptions;
 
 namespace Quoridor.Core.Models
@@ -35,7 +36,7 @@ namespace Quoridor.Core.Models
             walls = new List<Wall>(TOTAL_WALLS);
         }
 
-        public int AddPlayer()
+        public Player AddPlayer()
         {
             if (players.Count == playersCount)
             {
@@ -47,17 +48,7 @@ namespace Quoridor.Core.Models
             int wallsCount = TOTAL_WALLS / playersCount;
             Player player = new Player(id, position, wallsCount);
             players.Add(player);
-            return id;
-        }
-
-        public Player GetPlayer(int id)
-        {
-            Player result = players.Find(player => player.Id == id);
-            if (result == null)
-            {
-                throw new PlayerNotFoundException(id);
-            }
-            return result;
+            return player;
         }
 
         public void AddWall(Wall wall)
@@ -67,6 +58,11 @@ namespace Quoridor.Core.Models
                 throw new WallLimitReachedException(TOTAL_WALLS);
             }
             walls.Add(wall);
+        }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
         }
     }
 }
