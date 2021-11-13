@@ -22,8 +22,7 @@ namespace Quoridor.AI
             int moveType = random.Next(0, 2);
             if (moveType == 0)
             {
-                Player player = state.GetPlayer(PlayerId);
-                Point position = player.Position;
+                Point position = Player.Position;
                 List<Point> possibleMoves = new List<Point>();
                 possibleMoves.Add(new Point(position.X + 1, position.Y));
                 possibleMoves.Add(new Point(position.X - 1, position.Y));
