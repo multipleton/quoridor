@@ -4,13 +4,13 @@ namespace Quoridor.Core.Models
 {
     public class Point
     {
-        private short x;
-        private short y;
+        private int x;
+        private int y;
 
-        public short X { get => x; set => x = value; }
-        public short Y { get => y; set => y = value; }
+        public int X { get => x; set => x = value; }
+        public int Y { get => y; set => y = value; }
 
-        public Point(short x, short y)
+        public Point(int x, int y)
         {
             X = x;
             Y = y;

@@ -5,10 +5,10 @@ namespace Quoridor.Core.Models
     public abstract class Connection
     {
         private readonly string identifier;
-        private short playerId;
+        private int playerId;
 
         public string Identifier => identifier;
-        public short PlayerId
+        public int PlayerId
         {
             get => playerId;
             set

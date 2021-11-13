@@ -5,7 +5,7 @@ namespace Quoridor.Core.Models
 {
     public class State
     {
-        private const short TOTAL_WALLS = 20;
+        private const int TOTAL_WALLS = 20;
         private readonly Point[] PLAYER_STARTUP_POSITIONS =
         {
             new Point(4, 8),
@@ -14,7 +14,7 @@ namespace Quoridor.Core.Models
             new Point(8, 4),
         };
 
-        private readonly short playersCount;
+        private readonly int playersCount;
 
         private readonly List<Player> players;
         private readonly List<Wall> walls;
@@ -24,7 +24,7 @@ namespace Quoridor.Core.Models
         public Player[] Players => players.ToArray();
         public Wall[] Walls => walls.ToArray();
 
-        public State(short playersCount)
+        public State(int playersCount)
         {
             if (playersCount != 2 && playersCount != 4)
             {
@@ -42,15 +42,15 @@ namespace Quoridor.Core.Models
                 throw new PlayerLimitReachedException(playersCount);
             }
             int index = players.Count;
-            short id = (short)(index + 1);
+            int id = index + 1;
             Point position = PLAYER_STARTUP_POSITIONS[index];
-            short wallsCount = (short)(TOTAL_WALLS / playersCount);
+            int wallsCount = TOTAL_WALLS / playersCount;
             Player player = new Player(id, position, wallsCount);
             players.Add(player);
             return id;
         }
 
-        public Player GetPlayer(short id)
+        public Player GetPlayer(int id)
         {
             Player result = players.Find(player => player.Id == id);
             if (result == null)

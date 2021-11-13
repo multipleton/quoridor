@@ -41,7 +41,7 @@ namespace Quoridor.Core
 
         public void Initialize(int playersCount)
         {
-            state = new State((short)playersCount);
+            state = new State(playersCount);
             connections = new List<Connection>(playersCount);
             currentConnectionIndex = 0;
             gameFinished = false;
@@ -50,7 +50,7 @@ namespace Quoridor.Core
         public void Connect(Connection connection)
         {
             if (gameFinished) throw new GameFinishedException();
-            connection.PlayerId = (short)state.AddPlayer();
+            connection.PlayerId = state.AddPlayer();
             connections.ForEach(entry => entry.OnNewConnection(connection));
             connections.Add(connection);
             connection.OnConnected();
@@ -101,7 +101,7 @@ namespace Quoridor.Core
             {
                 state.AddWall(wall);
                 NextConnection();
-                connections.ForEach(entry =>entry
+                connections.ForEach(entry => entry
                     .OnMove(connection, CurrentConnection, null, wall));
                 connections.ForEach(entry => entry.OnUpdate(state));
                 CurrentConnection.OnWaitingForMove();
