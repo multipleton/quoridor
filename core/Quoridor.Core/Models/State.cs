@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using Quoridor.Core.Exceptions;
 
 namespace Quoridor.Core.Models
@@ -57,6 +58,11 @@ namespace Quoridor.Core.Models
                 throw new WallLimitReachedException(TOTAL_WALLS);
             }
             walls.Add(wall);
+        }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
         }
     }
 }

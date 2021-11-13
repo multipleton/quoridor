@@ -1,4 +1,6 @@
-﻿namespace Quoridor.Core.Models
+﻿using System.Text.Json;
+
+namespace Quoridor.Core.Models
 {
     public class Player
     {
@@ -31,6 +33,11 @@
                 return true;
             }
             return false;
+        }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
         }
     }
 }
