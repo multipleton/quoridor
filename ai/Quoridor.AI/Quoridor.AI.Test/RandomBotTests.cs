@@ -20,7 +20,7 @@ namespace Quoridor.AI.Test
         public void Setup()
         {
             gameEngineMock = new Mock<GameEngine>();
-            stateMock = new Mock<State>((short)2);
+            stateMock = new Mock<State>(2);
             position = new Point(4, 4);
             player = new Player(0, position, 10);
             randomBot = new RandomBot(gameEngineMock.Object);
@@ -32,14 +32,14 @@ namespace Quoridor.AI.Test
         public void TestOnWaitingForMove()
         {
             List<Point> possiblePlayerMoves = new List<Point>();
-            possiblePlayerMoves.Add(new Point((short)(position.X + 1), position.Y));
-            possiblePlayerMoves.Add(new Point((short)(position.X - 1), position.Y));
-            possiblePlayerMoves.Add(new Point(position.X, (short)(position.Y + 1)));
-            possiblePlayerMoves.Add(new Point(position.X, (short)(position.Y - 1)));
-            possiblePlayerMoves.Add(new Point((short)(position.X + 1), (short)(position.Y + 1)));
-            possiblePlayerMoves.Add(new Point((short)(position.X + 1), (short)(position.Y - 1)));
-            possiblePlayerMoves.Add(new Point((short)(position.X - 1), (short)(position.Y + 1)));
-            possiblePlayerMoves.Add(new Point((short)(position.X - 1), (short)(position.Y - 1)));
+            possiblePlayerMoves.Add(new Point(position.X + 1, position.Y));
+            possiblePlayerMoves.Add(new Point(position.X - 1, position.Y));
+            possiblePlayerMoves.Add(new Point(position.X, position.Y + 1));
+            possiblePlayerMoves.Add(new Point(position.X, position.Y - 1));
+            possiblePlayerMoves.Add(new Point(position.X + 1, position.Y + 1));
+            possiblePlayerMoves.Add(new Point(position.X + 1, position.Y - 1));
+            possiblePlayerMoves.Add(new Point(position.X - 1, position.Y + 1));
+            possiblePlayerMoves.Add(new Point(position.X - 1, position.Y - 1));
             gameEngineMock
                 .Setup(i => i.MakeMove(It.IsAny<Point>()))
                 .Callback<Point>(
@@ -58,17 +58,17 @@ namespace Quoridor.AI.Test
                     }
                 );
             gameEngineMock
-                .Setup(i => i.MakeMove(It.IsAny<Point[]>(), It.IsAny<Point[]>()))
-                .Callback<Point[], Point[]>(
-                    (start, end) =>
+                .Setup(i => i.MakeMove(It.IsAny<Wall>()))
+                .Callback<Wall>(
+                    wall =>
                     {
-                        bool direction = start[0].X == end[0].X;
+                        bool direction = wall.Start[0].X == wall.End[0].X;
                         int offsetX = direction ? 0 : 1;
                         int offsetY = direction ? 1 : 0;
-                        Assert.IsTrue(start[0].X + offsetX == start[1].X);
-                        Assert.IsTrue(start[0].Y + offsetY == start[1].Y);
-                        Assert.IsTrue(end[0].X + offsetX == end[1].X);
-                        Assert.IsTrue(end[0].Y + offsetY == end[1].Y);
+                        Assert.IsTrue(wall.Start[0].X + offsetX == wall.Start[1].X);
+                        Assert.IsTrue(wall.Start[0].Y + offsetY == wall.Start[1].Y);
+                        Assert.IsTrue(wall.End[0].X + offsetX == wall.End[1].X);
+                        Assert.IsTrue(wall.End[0].Y + offsetY == wall.End[1].Y);
                     }
                 );
             stateMock.Setup(i => i.GetPlayer(player.Id)).Returns(player);
@@ -83,8 +83,8 @@ namespace Quoridor.AI.Test
                 .Setup(i => i.MakeMove(It.IsAny<Point>()))
                 .Callback<Point>(_ => isMethodCalled = !isMethodCalled);
             gameEngineMock
-                .Setup(i => i.MakeMove(It.IsAny<Point[]>(), It.IsAny<Point[]>()))
-                .Callback<Point[], Point[]>((start, end) => isMethodCalled = !isMethodCalled);
+                .Setup(i => i.MakeMove(It.IsAny<Wall>()))
+                .Callback<Wall>(_ => isMethodCalled = !isMethodCalled);
             stateMock.Setup(i => i.GetPlayer(player.Id)).Returns(player);
             randomBot.OnInvalidMove();
             Assert.IsTrue(isMethodCalled);

@@ -83,7 +83,7 @@ namespace Quoridor.Input
             }
             int y = verticalNaming.IndexOf(char.ToUpper(input[0]));
             if (y == -1) return null;
-            return new Point((short)x, (short)y);
+            return new Point(x, y);
         }
     }
 }

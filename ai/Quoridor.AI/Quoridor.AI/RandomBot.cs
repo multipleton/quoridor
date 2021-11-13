@@ -25,37 +25,37 @@ namespace Quoridor.AI
                 Player player = state.GetPlayer(PlayerId);
                 Point position = player.Position;
                 List<Point> possibleMoves = new List<Point>();
-                possibleMoves.Add(new Point((short)(position.X + 1), position.Y));
-                possibleMoves.Add(new Point((short)(position.X - 1), position.Y));
-                possibleMoves.Add(new Point(position.X, (short)(position.Y + 1)));
-                possibleMoves.Add(new Point(position.X, (short)(position.Y - 1)));
-                possibleMoves.Add(new Point((short)(position.X + 1), (short)(position.Y + 1)));
-                possibleMoves.Add(new Point((short)(position.X + 1), (short)(position.Y - 1)));
-                possibleMoves.Add(new Point((short)(position.X - 1), (short)(position.Y + 1)));
-                possibleMoves.Add(new Point((short)(position.X - 1), (short)(position.Y - 1)));
+                possibleMoves.Add(new Point(position.X + 1, position.Y));
+                possibleMoves.Add(new Point(position.X - 1, position.Y));
+                possibleMoves.Add(new Point(position.X, position.Y + 1));
+                possibleMoves.Add(new Point(position.X, position.Y - 1));
+                possibleMoves.Add(new Point(position.X + 1, position.Y + 1));
+                possibleMoves.Add(new Point(position.X + 1, position.Y - 1));
+                possibleMoves.Add(new Point(position.X - 1, position.Y + 1));
+                possibleMoves.Add(new Point(position.X - 1, position.Y - 1));
                 gameEngine.MakeMove(possibleMoves[random.Next(0, possibleMoves.Count)]);
             }
             else
             {
-                short startX = (short)random.Next(0, 9);
-                short startY = (short)random.Next(0, 9);
+                int startX = random.Next(0, 9);
+                int startY = random.Next(0, 9);
                 bool direction = random.Next(0, 2) == 0;
                 int offsetX = direction ? 0 : 1;
                 int offsetY = direction ? 1 : 0;
                 Point start = new Point(startX, startY);
                 List<Point> possibleEnds = new List<Point>();
-                possibleEnds.Add(new Point((short)(start.X + 1), start.Y));
-                possibleEnds.Add(new Point(start.X, (short)(start.Y + 1)));
+                possibleEnds.Add(new Point(start.X + 1, start.Y));
+                possibleEnds.Add(new Point(start.X, start.Y + 1));
                 Point end = possibleEnds[random.Next(0, possibleEnds.Count)];
                 Point[] startArray =
                 {
                     start,
-                    new Point((short)(start.X + offsetX), (short)(start.Y + offsetY))
+                    new Point(start.X + offsetX, start.Y + offsetY)
                 };
                 Point[] endArray =
                 {
                     end,
-                    new Point((short)(end.X + offsetX), (short)(end.Y + offsetY))
+                    new Point(end.X + offsetX, end.Y + offsetY)
                 };
                 Wall wall = new Wall(startArray, endArray);
                 gameEngine.MakeMove(wall);

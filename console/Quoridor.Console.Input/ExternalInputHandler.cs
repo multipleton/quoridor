@@ -57,12 +57,12 @@ namespace Quoridor.Input
             Point[] start =
             {
                 new Point(crossing.X, crossing.Y),
-                new Point((short)(crossing.X + offsetX), (short)(crossing.Y + offsetY)),
+                new Point(crossing.X + offsetX, crossing.Y + offsetY),
             };
             Point[] end =
             {
-                new Point((short)(crossing.X + offsetY), (short)(crossing.Y + offsetX)),
-                new Point((short)(crossing.X + 1), (short)(crossing.Y + 1)),
+                new Point(crossing.X + offsetY, crossing.Y + offsetX),
+                new Point(crossing.X + 1, crossing.Y + 1),
             };
             Wall wall = new Wall(start, end);
             onWall(wall);
@@ -93,7 +93,7 @@ namespace Quoridor.Input
                 return null;
             }
             if (y == -1) return null;
-            return new Point((short)x, (short)y);
+            return new Point(x, y);
         }
     }
 }
