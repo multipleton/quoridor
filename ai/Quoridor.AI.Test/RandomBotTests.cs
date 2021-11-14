@@ -24,7 +24,7 @@ namespace Quoridor.AI.Test
             position = new Point(4, 4);
             player = new Player(0, position, 10);
             randomBot = new RandomBot(gameEngineMock.Object);
-            randomBot.PlayerId = player.Id;
+            randomBot.Player = player;
             randomBot.OnUpdate(stateMock.Object);
         }
 
@@ -71,7 +71,6 @@ namespace Quoridor.AI.Test
                         Assert.IsTrue(wall.End[0].Y + offsetY == wall.End[1].Y);
                     }
                 );
-            stateMock.Setup(i => i.GetPlayer(player.Id)).Returns(player);
             randomBot.OnWaitingForMove();
         }
 
@@ -85,7 +84,6 @@ namespace Quoridor.AI.Test
             gameEngineMock
                 .Setup(i => i.MakeMove(It.IsAny<Wall>()))
                 .Callback<Wall>(_ => isMethodCalled = !isMethodCalled);
-            stateMock.Setup(i => i.GetPlayer(player.Id)).Returns(player);
             randomBot.OnInvalidMove();
             Assert.IsTrue(isMethodCalled);
         }
