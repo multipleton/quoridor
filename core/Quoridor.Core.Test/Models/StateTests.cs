@@ -21,7 +21,8 @@ namespace Quoridor.Core.Test
             state2.AddPlayer();
             Point[] start = { new Point(1, 1), new Point(1, 2) };
             Point[] end = { new Point(2, 1), new Point(2, 2) };
-            state2.AddWall(start, end);
+            Wall wall = new Wall(start, end);
+            state2.AddWall(wall);
             Assert.AreEqual(state2.Players.Length, 1);
             Assert.AreEqual(state2.Walls.Length, 1);
             Assert.AreEqual(state2.Walls[0].Start[0].X, 1);
@@ -57,25 +58,17 @@ namespace Quoridor.Core.Test
         }
 
         [Test]
-        public void GetPlayer_Test()
-        {
-            State state2 = new State(2);
-            state2.AddPlayer();
-            Assert.AreEqual(state2.GetPlayer(1).Id, 1);
-            Assert.Throws<PlayerNotFoundException>(() => state2.GetPlayer(0));
-        }
-
-        [Test]
         public void AddWall()
         {
             State state2 = new State(2);
             Point[] start = { new Point(1, 1), new Point(1, 2) };
             Point[] end = { new Point(2, 1), new Point(2, 2) };
+            Wall wall = new Wall(start, end);
             for (int i = 0; i < 20; i++)
             {
-                state2.AddWall(start, end);
+                state2.AddWall(wall);
             }
-            Assert.Throws<WallLimitReachedException>(() => state2.AddWall(start, end));
+            Assert.Throws<WallLimitReachedException>(() => state2.AddWall(wall));
         }
     }
 }

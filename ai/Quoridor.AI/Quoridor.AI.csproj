@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\core\Quoridor.Core\Quoridor.Core.csproj" />
+    <ProjectReference Include="..\..\core\Quoridor.Core\Quoridor.Core.csproj" />
   </ItemGroup>
 
 </Project>
