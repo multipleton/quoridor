@@ -57,6 +57,11 @@ namespace Quoridor.Core.Logic
             return walls.ToArray();
         }
 
+        public object BFS<T>(T t)
+        {
+            throw new NotImplementedException();
+        }
+
         public Point[] GetPlayerWinPositions(int index)
         {
             List<Point> positions = new List<Point>();

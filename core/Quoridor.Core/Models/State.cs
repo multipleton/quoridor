@@ -64,5 +64,14 @@ namespace Quoridor.Core.Models
         {
             return JsonSerializer.Serialize(this);
         }
+        public Player GetPlayer(int id)
+        {
+            Player result = players.Find(player => player.Id == id);
+            if (result == null)
+            {
+                throw new PlayerNotFoundException(id);
+            }
+            return result;
+        }
     }
 }
