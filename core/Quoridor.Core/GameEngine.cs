@@ -74,18 +74,18 @@ namespace Quoridor.Core
             {
                 Point oldPoint = player.Position;
                 player.Move(point);
-                if (IsPlayerWin(player))
+                /*if (IsPlayerWin(player))
                 {
                     Finish();
                 }
                 else
-                {
+                {*/
                     NextConnection();
                     connections.ForEach(entry =>
                         entry.OnMove(connection, CurrentConnection, oldPoint, point, null));
                     connections.ForEach(entry => entry.OnUpdate(state));
                     CurrentConnection.OnWaitingForMove();
-                }
+                //}
             }
             else
             {
@@ -139,7 +139,7 @@ namespace Quoridor.Core
         private bool IsValidMove(Point point)
         {
             Player player = CurrentConnection.Player;
-            Point[] availableMoves = pathFinder.GetAvailableMoves(state, player);
+            Point[] availableMoves = pathFinder.GetAvailableMoves(state, player.Position.X, player.Position.Y);
             foreach (var position in availableMoves)
             {
                 if (position.Equals(point))
