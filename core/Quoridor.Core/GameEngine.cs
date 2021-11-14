@@ -74,18 +74,18 @@ namespace Quoridor.Core
             {
                 Point oldPoint = player.Position;
                 player.Move(point);
-                /*if (IsPlayerWin(player))
+                connections.ForEach(entry =>
+                        entry.OnMove(connection, CurrentConnection, oldPoint, point, null));
+                connections.ForEach(entry => entry.OnUpdate(state));
+                if (IsPlayerWin(player))
                 {
                     Finish();
                 }
                 else
-                {*/
+                {
                     NextConnection();
-                    connections.ForEach(entry =>
-                        entry.OnMove(connection, CurrentConnection, oldPoint, point, null));
-                    connections.ForEach(entry => entry.OnUpdate(state));
                     CurrentConnection.OnWaitingForMove();
-                //}
+                }
             }
             else
             {
