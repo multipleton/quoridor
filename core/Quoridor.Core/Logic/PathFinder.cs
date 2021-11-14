@@ -1,4 +1,5 @@
 ﻿using Quoridor.Core.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Quoridor.Core.Logic
@@ -56,6 +57,11 @@ namespace Quoridor.Core.Logic
             return walls.ToArray();
         }
 
+        public object BFS<T>(T t)
+        {
+            throw new NotImplementedException();
+        }
+
         public Point[] GetPlayerWinPositions(int index)
         {
             List<Point> positions = new List<Point>();
@@ -67,12 +73,18 @@ namespace Quoridor.Core.Logic
             return positions.ToArray();
         }
 
-        public Point[] GetAvailableMoves(State state, Player player)
+        public int[] GetPlayerWinPositionsInInt(int index)
+        {
+            if (index == 2)
+            {
+                return new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
+            }
+            return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+        }
+
+        public Point[] GetAvailableMoves(State state, int y, int x)
         {
             fieldState = AddWallsAndPlayersToMatrix(state);
-            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
-            int x = player.Position.Y;
-            int y = player.Position.X;
             int i = x * 2;
             int j = y * 2;
             List<Point> value = new List<Point>();
@@ -271,10 +283,59 @@ namespace Quoridor.Core.Logic
             return result;
         }
 
+        public int[] BFS(int start, int[] playerWinPositions, State state)
+        {
+            fieldState = AddWallsAndPlayersToMatrix(state);
+            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState, state);
+            Queue<int> q = new Queue<int>();
+            int[] p = new int[81];
+            p[start] = -1;
+            int[] dist = new int[81];
+            marked = new int[81];
+            q.Enqueue(start);
+            dist[start] = 0;
+            marked[start] = 1;
+            while (q.Count > 0)
+            {
+                int v = q.Dequeue();
+                for (int i = 0; i < adjacencyGraph[v].Length; i++)
+                {
+                    if (marked[adjacencyGraph[v][i]] == 0)
+                    {
+                        dist[adjacencyGraph[v][i]] = dist[v] + 1;
+                        p[adjacencyGraph[v][i]] = v;
+                        marked[adjacencyGraph[v][i]] = 1;
+                        q.Enqueue(adjacencyGraph[v][i]);
+                    }
+                }
+            }
+            int shortestNode = playerWinPositions[0];
+            for (int i = 0; i < playerWinPositions.Length; i++)
+            {
+                if (dist[playerWinPositions[i]] < dist[shortestNode])
+                {
+                    shortestNode = playerWinPositions[i];
+                }
+            }
+            Queue<int> queue = new Queue<int>();
+            while (shortestNode != -1)
+            {
+                queue.Enqueue(shortestNode);
+                shortestNode = p[shortestNode];
+            }
+            var path = queue.ToArray();
+            int[] reversedPath = new int[path.Length];
+            for (int i = 0; i < path.Length; i++)
+            {
+                reversedPath[i] = path[path.Length - 1 - i];
+            }
+            return reversedPath;
+        }
+
         private bool HasAvailablePaths(State state, Wall wall)
         {
             fieldState = AddWallsAndPlayersToMatrix(state, wall);
-            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState);
+            adjacencyGraph = TransformFieldStateToAdjacencyMatrix(fieldState, state);
             Player[] players = state.Players;
             int[] firstWinCases = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
             int[] secondWinCases = new int[] { 72, 73, 74, 75, 76, 77, 78, 79, 80 };
@@ -289,7 +350,7 @@ namespace Quoridor.Core.Logic
             return true;
         }
 
-        private Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] matrix)
+        private Dictionary<int, int[]> TransformFieldStateToAdjacencyMatrix(int[,] matrix, State state)
         {
             Dictionary<int, int[]> result = new Dictionary<int, int[]>();
             for (int i = 0; i < matrix.GetLength(0); i = i + 2)
@@ -299,7 +360,12 @@ namespace Quoridor.Core.Logic
                     int x = i / 2;
                     int y = j / 2;
                     int key = x * 9 + y;
+                    var res = GetAvailableMoves(state, y, x);
                     List<int> value = new List<int>();
+                    for (int k = 0; k < res.Length; k++)
+                    {
+                        value.Add(res[k].X + res[k].Y * 9);
+                    }
                     if (j + 1 < 17 && matrix[i, j + 1] == 0)
                     {
                         value.Add(x * 9 + y + 1);

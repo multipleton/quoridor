@@ -6,7 +6,7 @@ namespace Quoridor.Core.Models
     {
         private readonly int id;
         private readonly Point position;
-        private int wallsCount;
+        public int wallsCount; // TODO: refactor
 
         public int Id => id;
         public Point Position => new Point(position.X, position.Y);

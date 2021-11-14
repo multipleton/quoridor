@@ -60,6 +60,16 @@ namespace Quoridor.Core.Models
             walls.Add(wall);
         }
 
+        public Player GetPlayer(int id)
+        {
+            Player result = players.Find(player => player.Id == id);
+            if (result == null)
+            {
+                throw new PlayerNotFoundException(id);
+            }
+            return result;
+        }
+
         public override string ToString()
         {
             return JsonSerializer.Serialize(this);
