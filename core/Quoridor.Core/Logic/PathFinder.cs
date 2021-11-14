@@ -72,6 +72,7 @@ namespace Quoridor.Core.Logic
             }
             return positions.ToArray();
         }
+
         public int[] GetPlayerWinPositionsInInt(int index)
         {
             if (index == 2)
@@ -84,9 +85,6 @@ namespace Quoridor.Core.Logic
         public Point[] GetAvailableMoves(State state, int y, int x)
         {
             fieldState = AddWallsAndPlayersToMatrix(state);
-            /*int x = player.Position.Y;
-            int y = player.Position.X;
-            */
             int i = x * 2;
             int j = y * 2;
             List<Point> value = new List<Point>();

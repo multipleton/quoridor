@@ -2,7 +2,6 @@
 using Quoridor.Core.Models;
 using Quoridor.Core.Logic;
 using System;
-using Newtonsoft.Json;
 
 namespace Quoridor.AI
 {
@@ -11,15 +10,11 @@ namespace Quoridor.AI
         private readonly GameEngine gameEngine;
         private State state;
         private PathFinder pathFinder;
-        private readonly Random random;
-        private Prediction prediction;
 
         public ImprovedBot(GameEngine gameEngine) : base("Improved Bot")
         {
             this.gameEngine = gameEngine;
-            random = new Random();
             pathFinder = new PathFinder();
-            prediction = new Prediction();
         }
 
         public override void OnConnected() { }
@@ -37,7 +32,7 @@ namespace Quoridor.AI
             }
         }
 
-        public override void OnMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall) {}
+        public override void OnMove(Connection previous, Connection current, Point oldPoint, Point point, Wall wall) { }
 
         public override void OnNewConnection(Connection connection) { }
 
@@ -57,14 +52,14 @@ namespace Quoridor.AI
         }
         private void MakeMove()
         {
-            var path = pathFinder.BFS(Player.Position.X + (Player.Position.Y * 9), 
+            var path = pathFinder.BFS(Player.Position.X + (Player.Position.Y * 9),
                 pathFinder.GetPlayerWinPositionsInInt(Player.Id), state);
             var enemy = state.Players[0];
             if (Player.Id == 1)
             {
                 enemy = state.Players[1];
             }
-            var pathEnemy = pathFinder.BFS(enemy.Position.X + (enemy.Position.Y * 9), 
+            var pathEnemy = pathFinder.BFS(enemy.Position.X + (enemy.Position.Y * 9),
                 pathFinder.GetPlayerWinPositionsInInt(enemy.Id), state);
             var nextPoint = path[1];
             if (pathEnemy.Length < path.Length && Player.WallsCount > 0)
@@ -82,13 +77,13 @@ namespace Quoridor.AI
                     {
                         maxLength = curPath.Length;
                         wall = possibleWalls[i];
-                    } 
+                    }
                 }
                 gameEngine.MakeMove(wall);
                 return;
             }
             gameEngine.MakeMove(new Point(nextPoint % 9, nextPoint / 9));
-            
+
         }
 
         class Copier
@@ -99,14 +94,14 @@ namespace Quoridor.AI
                 var player2 = state.Players[1];
                 var walls = state.Walls;
                 State newState = new State(2);
-                newState.AddPlayer();
-                newState.AddPlayer();
+                newState.AddPlayer(); // TODO: refactor
+                newState.AddPlayer(); // TODO: refactor
                 newState.Players[0].Position.X = player1.Position.X;
                 newState.Players[0].Position.Y = player1.Position.Y;
-                newState.Players[0].wallsCount = player1.wallsCount;
+                newState.Players[0].wallsCount = player1.wallsCount; // TODO: refactor
                 newState.Players[1].Position.X = player2.Position.X;
                 newState.Players[1].Position.Y = player2.Position.Y;
-                newState.Players[1].wallsCount = player2.wallsCount;
+                newState.Players[1].wallsCount = player2.wallsCount; // TODO: refactor
                 for (int i = 0; i < walls.Length; i++)
                 {
                     newState.AddWall(walls[i]);
@@ -114,6 +109,5 @@ namespace Quoridor.AI
                 return newState;
             }
         }
-        
     }
 }

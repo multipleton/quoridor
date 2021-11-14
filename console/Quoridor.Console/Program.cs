@@ -60,7 +60,7 @@ namespace Quoridor.Console
         {
             gameEngine.Initialize(2);
             PlayerConnection playerConnection = new PlayerConnection(gameEngine);
-            ImprovedBot randomBot = new ImprovedBot(gameEngine);
+            RandomBot randomBot = new RandomBot(gameEngine);
             gameEngine.Connect(playerConnection);
             gameEngine.Connect(randomBot);
             gameEngine.Start();

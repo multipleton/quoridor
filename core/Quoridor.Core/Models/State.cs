@@ -60,10 +60,6 @@ namespace Quoridor.Core.Models
             walls.Add(wall);
         }
 
-        public override string ToString()
-        {
-            return JsonSerializer.Serialize(this);
-        }
         public Player GetPlayer(int id)
         {
             Player result = players.Find(player => player.Id == id);
@@ -72,6 +68,11 @@ namespace Quoridor.Core.Models
                 throw new PlayerNotFoundException(id);
             }
             return result;
+        }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
         }
     }
 }
